@@ -6,7 +6,9 @@ module br.com.ifsp.nando.gerenciadortarefasescolares {
     requires jakarta.persistence;
 
 
-    opens br.com.ifsp.nando.gerenciadortarefasescolares to javafx.fxml;
-    opens modelo to org.hibernate.orm.core;
+    opens br.com.ifsp.nando.gerenciadortarefasescolares.modelo to org.hibernate.orm.core;
+
+    opens br.com.ifsp.nando.gerenciadortarefasescolares.controlador to javafx.fxml;
+    opens br.com.ifsp.nando.gerenciadortarefasescolares.view to javafx.graphics;
     exports br.com.ifsp.nando.gerenciadortarefasescolares;
 }

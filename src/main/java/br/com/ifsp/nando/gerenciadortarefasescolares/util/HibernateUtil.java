@@ -1,4 +1,4 @@
-package util;
+package br.com.ifsp.nando.gerenciadortarefasescolares.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;

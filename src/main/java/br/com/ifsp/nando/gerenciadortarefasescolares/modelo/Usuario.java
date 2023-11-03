@@ -1,4 +1,4 @@
-package modelo;
+package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 
 import jakarta.persistence.*;
 
