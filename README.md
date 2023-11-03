@@ -1,11 +1,10 @@
 # Gerenciador-Tarefas-Escolares
+
 > Orientador: Prof° Igor de Moraes Sampaio
+> 
+> Autor: Fernando Freitas de Lira
 
----
-
-Projeto final realizado na disciplina de LP1.
-
-_Autor: Fernando Freitas de Lira_
+Projeto final realizado na disciplina de LP1, no curso de informática pelo IFSP.
 
 ## Descrição do projeto
 
@@ -26,18 +25,18 @@ O sistema visa ser um gerenciador pessoal de tarefas para usuários diferentes e
 
 - Apache Maven
 - Java FileReader Library
-- Eclipse IDE
-- SceneBuilder for Eclipse
+- Intellij IDEA
+- SceneBuilder for Intellij IDEA
 - JavaFX
 - Hibernate
 - MySQL
 
 ## O que será feito?
 
-- [ ] Implementação de classes de modelo/entidade
-- [ ] Armazenamento em banco de dados
+- [X] Implementação de classes de modelo/entidade
+- [X] Armazenamento em banco de dados
 - [ ] Armazenamento de relatórios em arquivos `.txt`
 - [ ] Possiblidade de escolha do diretótorio de armazenamento
 - [ ] Cadastro e login de usuários
 - [ ] Categoriazação de Tarefas
-- [ ] Painel Principal
+- [ ] Interface Principal
