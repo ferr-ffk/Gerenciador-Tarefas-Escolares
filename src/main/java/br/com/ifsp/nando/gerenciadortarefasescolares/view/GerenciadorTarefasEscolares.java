@@ -13,7 +13,7 @@ public class GerenciadorTarefasEscolares extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 450, 340);
+        Scene scene = new Scene(fxmlLoader.load(), 500, 380);
 
         stage.setTitle("Gerenciador de tarefas escolares");
         stage.setResizable(false);
