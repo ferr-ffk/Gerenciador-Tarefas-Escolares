@@ -29,7 +29,7 @@ public class Login {
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("CriarConta.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 380);
+        Scene scene = new Scene(fxmlLoader.load());
 
         stage.setScene(scene);
         stage.show();

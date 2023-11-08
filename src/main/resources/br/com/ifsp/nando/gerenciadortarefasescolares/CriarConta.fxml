@@ -21,7 +21,7 @@
       </Label>
    </top>
    <bottom>
-      <VBox alignment="CENTER" fillWidth="false" prefHeight="471.0" prefWidth="404.0" spacing="15.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" fillWidth="false" prefWidth="404.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="(Opcional) Digite um apelido!" />
             <TextField fx:id="apelido_usuario" prefWidth="230.0" />
@@ -31,7 +31,7 @@
             <PasswordField fx:id="senha" prefWidth="230.0" />
             <Label text="Confime a senha" />
             <PasswordField fx:id="confirmar" prefWidth="230.0" />
-            <BorderPane prefHeight="289.0" prefWidth="419.0">
+            <BorderPane prefHeight="101.0" prefWidth="324.0">
                <center>
                   <Button fx:id="botao_criar_usuario" mnemonicParsing="false" onAction="#onCriarUsuario" prefHeight="40.0" prefWidth="88.0" text="Enviar" BorderPane.alignment="CENTER" />
                </center>
