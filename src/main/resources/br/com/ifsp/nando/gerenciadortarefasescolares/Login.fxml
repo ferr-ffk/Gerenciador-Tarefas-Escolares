@@ -8,9 +8,11 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="cena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.LoginController">
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="cenaLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="461.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21"
+            fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Login">
    <top>
-      <Label fx:id="login_titulo" alignment="CENTER" prefHeight="67.0" prefWidth="376.0" text="Gerenciador de tarefas v" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
+      <Label fx:id="loginTitulo" alignment="CENTER" prefHeight="67.0" prefWidth="376.0" text="Gerenciador de tarefas v" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
          <font>
             <Font name="Verdana Bold Italic" size="18.0" />
          </font>
@@ -37,7 +39,7 @@
    <bottom>
       <Label alignment="CENTER" contentDisplay="RIGHT" graphicTextGap="12.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="89.0" prefWidth="226.0" text="Não possui cadastro?" wrapText="true" BorderPane.alignment="CENTER">
          <graphic>
-            <Button fx:id="botao_criar_conta" mnemonicParsing="false" onAction="#onClicKBotaoCriarConta" text="Criar conta">
+            <Button fx:id="botaoLogin" mnemonicParsing="false" onAction="#onCriarConta" text="Criar conta">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>

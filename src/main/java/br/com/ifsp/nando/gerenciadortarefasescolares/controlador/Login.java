@@ -13,17 +13,19 @@ import java.io.IOException;
 
 public class Login {
 
-    @FXML
-    public BorderPane cena_login;
+    private Stage stageLogin;
 
     @FXML
-    public Label login_titulo;
+    private BorderPane cenaLogin;
 
     @FXML
-    public Button botao_criar_conta;
+    private Label loginTitulo;
 
     @FXML
-    public void onClicKBotaoCriarConta() throws IOException {
+    private Button botaoLogin;
+
+    @FXML
+    public void onCriarConta() throws IOException {
         Stage stage = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("CriarConta.fxml"));
@@ -34,6 +36,6 @@ public class Login {
     }
 
     public void initialize() {
-        login_titulo.setText("Gerenciador de tarefas v" + Main.VERSAO_GERENCIADOR);
+        loginTitulo.setText("Gerenciador de tarefas v" + Main.VERSAO_GERENCIADOR);
     }
 }
