@@ -47,14 +47,23 @@ public class CriarConta {
 
         System.out.println(usuario);
 
-        fecharJanela(event);
+        fecharJanela();
     }
 
-    public void fecharJanela(ActionEvent event) {
+    /**
+     * Obtém a janela atual do contexto e fecha ela (sem avisos)
+     */
+    public void fecharJanela() {
         stageCriarConta = (Stage) cenaCriarConta.getScene().getWindow();
         stageCriarConta.close();
     }
 
+    /**
+     * Obtém a janela atual do contexto e lança um aviso para o usuário dizendo que qualquer alteração não salva será perdida,
+     * o usuário pode então cancelar a operação ou prosseguir e fechar a janela.
+     *
+     * @param event O objeto de evento
+     */
     public void fecharJanelaComAviso(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Sair");
