@@ -75,7 +75,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "USUARIO [" + id + "]:" + apelido + ", " + nome_usuario;
+        return "USUARIO [" + id + "]: {" + apelido + ", " + nome_usuario + ", " + senha + "}";
     }
 
     public List<Tarefa> getTarefas() {

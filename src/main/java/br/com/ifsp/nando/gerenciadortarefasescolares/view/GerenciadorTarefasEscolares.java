@@ -25,8 +25,8 @@ public class GerenciadorTarefasEscolares extends Application {
         stage.setScene(scene);
         stage.show();
 
-
         stage.setOnCloseRequest(event -> {
+            // previne o fechamento automático da janela
             event.consume();
             fecharJanela(stage);
         });
