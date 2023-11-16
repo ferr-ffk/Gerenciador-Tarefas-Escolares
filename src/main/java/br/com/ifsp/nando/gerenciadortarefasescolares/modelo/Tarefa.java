@@ -37,6 +37,10 @@ public class Tarefa {
     @Column
     private Boolean excluida;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     public Tarefa() {}
 
     public Tarefa(String titulo, String descricao, Date dataVencimento, TipoTarefa categoria) {
@@ -82,4 +86,6 @@ public class Tarefa {
     public void excluir() {
         this.excluida = true;
     }
+
+    public TipoTarefa getCategoria() { return this.categoria; }
 }
