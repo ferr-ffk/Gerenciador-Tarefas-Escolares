@@ -1,6 +1,6 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.controlador;
 
-import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.CategoriaTarefa;
+import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,7 +26,7 @@ public class CriarCategoria {
         String nome = nomeCategoria.getText();
         String cor = corCategoria.getValue().toString();
 
-        CategoriaTarefa categoriaTarefa = new CategoriaTarefa(nome, cor);
-        System.out.println(categoriaTarefa);
+        TipoTarefa tipoTarefa = new TipoTarefa(nome, cor);
+        System.out.println(tipoTarefa);
     }
 }

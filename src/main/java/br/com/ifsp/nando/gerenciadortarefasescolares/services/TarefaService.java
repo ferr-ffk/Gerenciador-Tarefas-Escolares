@@ -1,7 +1,6 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.services;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
-import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -40,7 +39,7 @@ public class TarefaService {
      * @return A lista de tarefas cadastrados
      */
     public static List<Tarefa> readTarefas() {
-        return session.createQuery("from Tarefas", Tarefa.class).list();
+        return session.createQuery("from Tarefa", Tarefa.class).list();
     }
 
     /**
@@ -52,7 +51,7 @@ public class TarefaService {
     public static void updateUsuario(Integer id, Tarefa t) {
         Tarefa tarefa = readTarefa(id);
 
-        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getCategoria());
+        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa());
 
         Transaction transaction = session.getTransaction();
         session.persist(tarefa);

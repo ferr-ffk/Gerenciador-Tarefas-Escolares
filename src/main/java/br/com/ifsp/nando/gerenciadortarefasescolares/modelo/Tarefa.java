@@ -29,7 +29,7 @@ public class Tarefa {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_categoria")
-    private CategoriaTarefa categoria;
+    private TipoTarefa categoria;
 
     @Column
     private Boolean concluida;
@@ -43,7 +43,7 @@ public class Tarefa {
 
     public Tarefa() {}
 
-    public Tarefa(String titulo, String descricao, Date dataVencimento, CategoriaTarefa categoria) {
+    public Tarefa(String titulo, String descricao, Date dataVencimento, TipoTarefa categoria) {
         super();
         this.titulo = titulo;
         this.descricao = descricao;
@@ -87,5 +87,5 @@ public class Tarefa {
         this.excluida = true;
     }
 
-    public TipoTarefa getCategoria() { return this.categoria; }
+    public TipoTarefa getTipoTarefa() { return this.categoria; }
 }

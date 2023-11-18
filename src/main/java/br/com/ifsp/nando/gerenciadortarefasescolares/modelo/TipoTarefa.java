@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity(name = "TipoTarefa")
 @Table
-public class CategoriaTarefa {
+public class TipoTarefa {
 
     @Id
     @Column
@@ -20,9 +20,9 @@ public class CategoriaTarefa {
     @Column
     private String cor;
 
-    public CategoriaTarefa() {}
+    public TipoTarefa() {}
 
-    public CategoriaTarefa(String nome, String cor) {
+    public TipoTarefa(String nome, String cor) {
         super();
         this.nome = nome;
         this.excluida = false;

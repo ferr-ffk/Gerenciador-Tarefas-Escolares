@@ -1,14 +1,12 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.controlador;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
-import br.com.ifsp.nando.gerenciadortarefasescolares.util.HibernateUtil;
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class CriarConta {
 
@@ -47,13 +45,7 @@ public class CriarConta {
 
         // TODO: criar método para armazenar no banco de dados
         Usuario usuario = new Usuario(apelido_banco, usuario_banco, senha_banco);
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
-        session.persist(usuario);
-        transaction.commit();
-        session.close();
+        UsuarioService.createUsuario(usuario);
 
         fecharJanela();
     }

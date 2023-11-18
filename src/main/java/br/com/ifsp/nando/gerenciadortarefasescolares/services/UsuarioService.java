@@ -39,7 +39,7 @@ public class UsuarioService {
      * @return Todas as tarefas cadastradas no banco
      */
     public static List<Tarefa> readTarefaUsuario(Integer id) {
-        return session.createQuery("from Tarefa where usuario_id = :id", Tarefa.class).setParameter("id", id).list();
+        return session.createQuery("from Tarefa where Tarefa.usuario = :id", Tarefa.class).setParameter("id", id).list();
     }
 
     /**
