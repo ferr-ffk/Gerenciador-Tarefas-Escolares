@@ -2,10 +2,8 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.view;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
-import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -13,15 +11,24 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
-public class GerenciadorTarefasEscolares extends Application implements Initializable {
+public class GerenciadorTarefasEscolares extends Application {
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        UsuarioService.createUsuario(new Usuario("apelido", "nome", "123"));
+    private Usuario usuario;
+
+    private final static GerenciadorTarefasEscolares INSTANCIA = new GerenciadorTarefasEscolares();
+
+    public static GerenciadorTarefasEscolares getInstancia() {
+        return INSTANCIA;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
     }
 
     @Override
@@ -32,7 +39,6 @@ public class GerenciadorTarefasEscolares extends Application implements Initiali
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/br/com/ifsp/nando/gerenciadortarefasescolares/Icons/icon.jpg"))));
 
         stage.setTitle("Gerenciador de tarefas escolares");
-        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 

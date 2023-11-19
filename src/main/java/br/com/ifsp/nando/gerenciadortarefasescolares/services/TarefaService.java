@@ -9,7 +9,6 @@ import java.util.List;
 
 public class TarefaService {
 
-
     static Session session = HibernateUtil.getSessionFactory().openSession();
 
     /**
@@ -49,7 +48,7 @@ public class TarefaService {
      * @param t os dados da nova tarefa
      */
     public static void updateUsuario(Integer id, Tarefa t) {
-        Tarefa tarefa = readTarefa(id);
+        Tarefa tarefa;
 
         tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa());
 

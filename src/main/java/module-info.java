@@ -10,5 +10,6 @@ module br.com.ifsp.nando.gerenciadortarefasescolares {
 
     opens br.com.ifsp.nando.gerenciadortarefasescolares.controlador to javafx.fxml;
     opens br.com.ifsp.nando.gerenciadortarefasescolares.view to javafx.graphics;
+    opens br.com.ifsp.nando.gerenciadortarefasescolares.teste to javafx.graphics;
     exports br.com.ifsp.nando.gerenciadortarefasescolares;
 }

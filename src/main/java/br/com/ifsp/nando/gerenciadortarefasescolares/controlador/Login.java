@@ -11,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,8 +22,10 @@ import java.util.ResourceBundle;
 
 public class Login implements Initializable {
 
+    private Stage stage;
+
     @FXML
-    private BorderPane cenaLogin;
+    private Pane cenaLogin;
 
     @FXML
     private Label loginTitulo;
@@ -43,7 +45,7 @@ public class Login implements Initializable {
     List<Usuario> usuarios;
 
     @FXML
-    public void onLogin() {
+    public void onLogin() throws IOException {
         final String nomeUsuario = entradaNomeUsuario.getText();
 
         Optional<Usuario> usuarioCadastrado = usuarios.stream().filter(u -> u.getNome_usuario().equals(nomeUsuario)).findFirst();
@@ -54,7 +56,7 @@ public class Login implements Initializable {
             if(senhaValida) {
                 // usuario logado! prosseguir para o painel principal
 
-                System.out.println("Usuário encontrado!");
+                onLogin(usuarioCadastrado.get());
             } else {
                 // senha incorreta
 
@@ -67,15 +69,27 @@ public class Login implements Initializable {
         }
     }
 
+    private void onLogin(Usuario usuario) throws IOException {
+        stage = (Stage) botaoLogin.getScene().getWindow();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Painel.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        stage.setUserData(usuario);
+        stage.setScene(scene);
+
+        stage.show();
+    }
+
     @FXML
     public void onCriarConta() throws IOException {
-        Stage stage = new Stage();
+        Stage stageCriarConta = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("CriarConta.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        stage.setScene(scene);
-        stage.show();
+        stageCriarConta.setScene(scene);
+        stageCriarConta.show();
     }
 
     @Override

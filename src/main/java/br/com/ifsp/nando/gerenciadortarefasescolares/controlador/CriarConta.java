@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class CriarConta {
 
-    Stage stageCriarConta;
+    private Stage stageCriarConta;
 
     @FXML
     private BorderPane cenaCriarConta;
@@ -43,7 +43,6 @@ public class CriarConta {
 
         String senha_banco = senha.getText();
 
-        // TODO: criar método para armazenar no banco de dados
         Usuario usuario = new Usuario(apelido_banco, usuario_banco, senha_banco);
         UsuarioService.createUsuario(usuario);
 
@@ -53,7 +52,7 @@ public class CriarConta {
     /**
      * Obtém a janela atual do contexto e fecha ela (sem avisos)
      */
-    public void fecharJanela() {
+    private void fecharJanela() {
         stageCriarConta = (Stage) cenaCriarConta.getScene().getWindow();
         stageCriarConta.close();
     }
@@ -70,7 +69,7 @@ public class CriarConta {
         alert.setHeaderText("Você está prestes a sair!");
         alert.setContentText("Qualquer alteração não salva será perdida!");
 
-        if(alert.showAndWait().get() == ButtonType.OK) {
+        if(alert.showAndWait().isPresent() && alert.showAndWait().get() == ButtonType.OK) {
             stageCriarConta = (Stage) cenaCriarConta.getScene().getWindow();
             stageCriarConta.close();
         }
