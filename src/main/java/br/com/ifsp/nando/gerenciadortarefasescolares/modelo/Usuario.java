@@ -2,9 +2,6 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Os usuários devem poder fazer login no sistema. Cada usuário possui uma lista
  * de tarefas para depois monitorá-las
@@ -19,34 +16,25 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Integer id;
+    private Integer idUsuario;
 
     @Column
     private String apelido;
 
     @Column
-    private String nome_usuario;
+    private String nomeUsuario;
 
     @Column
     private String senha;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_tarefas")
-    private List<Tarefa> tarefas;
-
     public Usuario() {
     }
 
-    public Usuario(String apelido, String nome_usuario, String senha) {
+    public Usuario(String apelido, String nomeUsuario, String senha) {
         super();
         this.apelido = apelido;
-        this.nome_usuario = nome_usuario;
+        this.nomeUsuario = nomeUsuario;
         this.senha = senha;
-        this.tarefas = new ArrayList<Tarefa>();
-    }
-
-    public void adicionarTarefa(Tarefa t) {
-        tarefas.add(t);
     }
 
     public String getApelido() {
@@ -57,12 +45,12 @@ public class Usuario {
         this.apelido = apelido;
     }
 
-    public String getNome_usuario() {
-        return nome_usuario;
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 
-    public void setNome_usuario(String nome_usuario) {
-        this.nome_usuario = nome_usuario;
+    public void setNomeUsuario(String nome_usuario) {
+        this.nomeUsuario = nome_usuario;
     }
 
     public String getSenha() {
@@ -75,10 +63,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "USUARIO [" + id + "]: {" + apelido + ", " + nome_usuario + ", " + senha + "}";
+        return "USUARIO [" + idUsuario + "]: {" + apelido + ", " + nomeUsuario + ", " + senha + "}";
     }
 
-    public List<Tarefa> getTarefas() {
-        return this.tarefas;
-    }
 }

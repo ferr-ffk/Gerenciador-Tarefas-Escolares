@@ -2,7 +2,7 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * A entidade tarefa representa um dos afazares do usuário, poderá alterar o nome, adicionar uma descrição e concluí-las
@@ -25,11 +25,11 @@ public class Tarefa {
     private String descricao;
 
     @Column
-    private Date dataVencimento;
+    private LocalDate dataVencimento;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_categoria")
-    private TipoTarefa categoria;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idCategoria")
+    private TipoTarefa idCategoria;
 
     @Column
     private Boolean concluida;
@@ -38,17 +38,21 @@ public class Tarefa {
     private Boolean excluida;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name = "idUsuario")
+    private Usuario idUsuario;
 
     public Tarefa() {}
 
-    public Tarefa(String titulo, String descricao, Date dataVencimento, TipoTarefa categoria) {
+    public Tarefa(String titulo, String descricao, LocalDate dataVencimento, TipoTarefa categoria, Usuario idUsuario) {
         super();
         this.titulo = titulo;
         this.descricao = descricao;
+
         this.dataVencimento = dataVencimento;
+
+        this.idCategoria = categoria;
         this.concluida = false;
+        this.idUsuario = idUsuario;
     }
 
     public String getTitulo() {
@@ -67,11 +71,11 @@ public class Tarefa {
         this.descricao = descricao;
     }
 
-    public Date getDataVencimento() {
+    public LocalDate getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 
@@ -87,5 +91,14 @@ public class Tarefa {
         this.excluida = true;
     }
 
-    public TipoTarefa getTipoTarefa() { return this.categoria; }
+    public TipoTarefa getTipoTarefa() { return this.idCategoria; }
+
+    public Usuario getIdUsuario() {
+        return this.idUsuario;
+    }
+
+    @Override
+    public String toString() {
+        return "TAREFA: {" + titulo + ", " + descricao + ", CATEGORIA: (" + idCategoria + "), DATA: (" + dataVencimento.toString() + ")}";
+    }
 }

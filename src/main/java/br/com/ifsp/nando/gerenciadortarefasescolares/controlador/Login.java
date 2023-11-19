@@ -46,9 +46,11 @@ public class Login implements Initializable {
 
     @FXML
     public void onLogin() throws IOException {
+        usuarios = UsuarioService.readUsuarios();
+
         final String nomeUsuario = entradaNomeUsuario.getText();
 
-        Optional<Usuario> usuarioCadastrado = usuarios.stream().filter(u -> u.getNome_usuario().equals(nomeUsuario)).findFirst();
+        Optional<Usuario> usuarioCadastrado = usuarios.stream().filter(u -> u.getNomeUsuario().equals(nomeUsuario)).findFirst();
 
         if(usuarioCadastrado.isPresent()) {
             boolean senhaValida = usuarioCadastrado.get().getSenha().equals(entradaSenhaUsuario.getText());
@@ -95,9 +97,5 @@ public class Login implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loginTitulo.setText("Gerenciador de tarefas v" + Main.VERSAO_GERENCIADOR);
-
-        usuarios = UsuarioService.readUsuarios();
-
-        System.out.println(usuarios);
     };
 }

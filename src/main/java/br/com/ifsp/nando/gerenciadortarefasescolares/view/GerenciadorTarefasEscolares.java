@@ -39,6 +39,7 @@ public class GerenciadorTarefasEscolares extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/br/com/ifsp/nando/gerenciadortarefasescolares/Icons/icon.jpg"))));
 
         stage.setTitle("Gerenciador de tarefas escolares");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 

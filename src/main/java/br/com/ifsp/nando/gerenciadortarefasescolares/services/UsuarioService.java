@@ -33,16 +33,6 @@ public class UsuarioService {
     }
 
     /**
-     * Retorna a lista de tarefas de um usuário a partir do id fornecido dele
-     *
-     * @param id O id do usuário a ser buscado
-     * @return Todas as tarefas cadastradas no banco
-     */
-    public static List<Tarefa> readTarefaUsuario(Integer id) {
-        return session.createQuery("from Tarefa where Tarefa.usuario = :id", Tarefa.class).setParameter("id", id).list();
-    }
-
-    /**
      * Retorna um usuário cadastrado no banco de dados
      *
      * @param id O id do usuário a ser buscado
@@ -50,6 +40,16 @@ public class UsuarioService {
      */
     public static Usuario readUsuario(Integer id) {
         return session.get(Usuario.class, id);
+    }
+
+    /**
+     * Retorna a lista de tarefas de um usuário a partir do objeto Usuario fornecido
+     *
+     * @param u O usuário a ser buscado
+     * @return Todas as tarefas cadastradas no banco
+     */
+    public static List<Tarefa> readTarefaUsuario(Usuario u) {
+        return session.createQuery("FROM Tarefa t WHERE t.idUsuario = :id", Tarefa.class).setParameter("id", u).list();
     }
 
     /**
@@ -61,7 +61,7 @@ public class UsuarioService {
     public static void updateUsuario(Integer id, Usuario u) {
         Usuario usuario = readUsuario(id);
 
-        usuario = new Usuario(u.getNome_usuario(), u.getApelido(), u.getSenha());
+        usuario = new Usuario(u.getNomeUsuario(), u.getApelido(), u.getSenha());
 
         Transaction transaction = session.getTransaction();
         session.persist(usuario);
@@ -84,6 +84,4 @@ public class UsuarioService {
         session.remove(u);
         transaction.commit();
     }
-
-
 }

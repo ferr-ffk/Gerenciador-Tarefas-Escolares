@@ -47,10 +47,10 @@ public class TarefaService {
      * @param id o id do tarefa a ser alterado
      * @param t os dados da nova tarefa
      */
-    public static void updateUsuario(Integer id, Tarefa t) {
-        Tarefa tarefa;
+    public static void updateTarefa(Integer id, Tarefa t) {
+        Tarefa tarefa = TarefaService.readTarefa(id);
 
-        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa());
+        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa(), t.getIdUsuario());
 
         Transaction transaction = session.getTransaction();
         session.persist(tarefa);
@@ -73,6 +73,5 @@ public class TarefaService {
         session.remove(t);
         transaction.commit();
     }
-
 
 }

@@ -1,6 +1,9 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 
 import jakarta.persistence.*;
+import javafx.scene.paint.Color;
+
+import static br.com.ifsp.nando.gerenciadortarefasescolares.util.ColorUtil.toHexString;
 
 @Entity(name = "TipoTarefa")
 @Table
@@ -9,7 +12,7 @@ public class TipoTarefa {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_categoria;
+    private Long idCategoria;
 
     @Column
     private String nome;
@@ -20,13 +23,18 @@ public class TipoTarefa {
     @Column
     private String cor;
 
+    @JoinColumn(name = "idUsuario")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Usuario idUsuario;
+
     public TipoTarefa() {}
 
-    public TipoTarefa(String nome, String cor) {
+    public TipoTarefa(String nome, Color cor, Usuario idUsuario) {
         super();
         this.nome = nome;
         this.excluida = false;
-        this.cor = cor;
+        this.cor = toHexString(cor);
+        this.idUsuario = idUsuario;
     }
 
     @Override
@@ -53,4 +61,5 @@ public class TipoTarefa {
     public void setCor(String cor) { this.cor = cor; }
 
     public String getCor() { return cor; }
+
 }

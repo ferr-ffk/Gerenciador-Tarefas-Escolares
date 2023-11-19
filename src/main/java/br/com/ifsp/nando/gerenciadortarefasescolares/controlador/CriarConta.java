@@ -43,10 +43,10 @@ public class CriarConta {
 
         String senha_banco = senha.getText();
 
+        fecharJanela();
+
         Usuario usuario = new Usuario(apelido_banco, usuario_banco, senha_banco);
         UsuarioService.createUsuario(usuario);
-
-        fecharJanela();
     }
 
     /**
