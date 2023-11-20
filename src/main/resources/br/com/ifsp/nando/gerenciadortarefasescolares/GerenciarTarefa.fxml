@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<!-- TODO: seguinte a lista ta exibindo certinho, mas tem q ver essa tela de editar/criar tarefa pra ver como faz -->
+
 <AnchorPane fx:id="cena" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="427.0" prefWidth="657.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.GerenciarTarefa">
    <children>
       <TextField fx:id="fieldTitulo" layoutX="14.0" layoutY="79.0" prefHeight="25.0" prefWidth="308.0" promptText="Título" />
@@ -22,11 +24,13 @@
          </font>
       </Label>
       <ChoiceBox fx:id="choiceCategoria" layoutX="370.0" layoutY="79.0" prefWidth="150.0" />
+      <Label fx:id="labelErro" alignment="CENTER" layoutX="370.0" layoutY="127.0" prefHeight="20.0" prefWidth="238.0" textFill="RED">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
 </AnchorPane>
-
-
-<!-- TODO: seguinte a lista ta exibindo certinho, mas tem q ver essa tela de editar/criar tarefa pra ver como faz -->

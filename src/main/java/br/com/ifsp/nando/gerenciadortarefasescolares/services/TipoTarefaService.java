@@ -42,6 +42,16 @@ public class TipoTarefaService {
     }
 
     /**
+     * Retorna o id de um objeto no banco
+     *
+     * @param tipoTarefa O objeto a ser buscado
+     * @return O índice do objeto, -1 se não conter
+     */
+    public static Integer readIdTipoTarefa(TipoTarefa tipoTarefa) {
+        return readTipoTarefas().indexOf(tipoTarefa) + 1;
+    }
+
+    /**
      * Atualiza uma categoria à partir de um novo objeto fornecido
      *
      * @param id O id da categoria
@@ -52,12 +62,29 @@ public class TipoTarefaService {
         TipoTarefa tipoTarefa = readTipoTarefa(id);
 
         if(tipoTarefa == null) {
-            throw new RuntimeException("A tarefa de id " + id + " não existe!");
+            throw new RuntimeException("A categoria de id " + id + " não existe!");
         }
 
         tipoTarefa = novaTipoTarefa;
 
-        session.persist(tipoTarefa);
+        session.remove(tipoTarefa);
+        session.persist(novaTipoTarefa);
+        transaction.commit();
+    }
+
+    /**
+     * Atualiza uma referência no banco à partir do objeto fornecido
+     *
+     * @param categoriaAntiga A categoria armazenada no banco para ser atualizada
+     * @param categoriaNova A nova categoria a ser atualizada;
+     */
+    public static void updateTipoTarefa(TipoTarefa categoriaAntiga, TipoTarefa categoriaNova) {
+        Transaction transaction = session.beginTransaction();
+
+        TipoTarefa categoria = session.get(TipoTarefa.class, categoriaAntiga);
+        categoria = categoriaNova;
+        session.persist(categoria);
+
         transaction.commit();
     }
 

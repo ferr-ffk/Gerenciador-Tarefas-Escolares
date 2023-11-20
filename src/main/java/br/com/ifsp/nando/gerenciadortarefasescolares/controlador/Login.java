@@ -3,6 +3,7 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.controlador;
 import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
+import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -21,11 +21,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Login implements Initializable {
-
-    private Stage stage;
-
-    @FXML
-    private Pane cenaLogin;
 
     @FXML
     private Label loginTitulo;
@@ -72,7 +67,7 @@ public class Login implements Initializable {
     }
 
     private void onLogin(Usuario usuario) throws IOException {
-        stage = (Stage) botaoLogin.getScene().getWindow();
+        Stage stage = (Stage) botaoLogin.getScene().getWindow();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Painel.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -90,6 +85,7 @@ public class Login implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("CriarConta.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
+        JavaFXUtil.setJanelaPadrao(stageCriarConta);
         stageCriarConta.setScene(scene);
         stageCriarConta.show();
     }
@@ -97,5 +93,5 @@ public class Login implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loginTitulo.setText("Gerenciador de tarefas v" + Main.VERSAO_GERENCIADOR);
-    };
+    }
 }

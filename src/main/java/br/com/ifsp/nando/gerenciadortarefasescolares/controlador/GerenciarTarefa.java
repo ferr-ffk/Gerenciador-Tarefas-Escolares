@@ -4,12 +4,14 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -34,27 +36,49 @@ public class GerenciarTarefa implements Initializable {
     private DatePicker datePicker;
 
     @FXML
-    private Button botaoEnviar;
+    private Label labelErro;
 
     @FXML
     private ChoiceBox<TipoTarefa> choiceCategoria;
 
+    @FXML
+    private ObservableList<TipoTarefa> tipoTarefas;
+
     private Tarefa tarefa;
+
+    private boolean novaTarefa;
 
     @FXML
     private void onClickEnviar() {
         Stage stage = (Stage) cena.getScene().getWindow();
-        Usuario usuario = (Usuario) stage.getUserData();
+        Usuario usuario;
+        TipoTarefa categoria; // fixme: ta dando detached dnv KKKKKKKKK
 
         String titulo = fieldTitulo.getText();
         String descricao = fieldDescricao.getText();
         LocalDate date = datePicker.getValue();
-        TipoTarefa categoria = new TipoTarefa("Nome", new Color(1, 1, 1, 1), usuario); // TODO: pegar categoria do choicebox
 
-        Tarefa tarefa = new Tarefa(titulo, descricao, date, categoria, usuario);
-        System.out.println(tarefa);
+        boolean tarefaInvalida = titulo.isEmpty() | datePicker.getValue() == null;
 
-        TarefaService.createTarefa(tarefa);
+        if (tarefaInvalida) {
+            labelErro.setText("Os campos título e data não podem ser vazios!");
+            return;
+        }
+
+        if (novaTarefa) {
+            usuario = (Usuario) stage.getUserData();
+            categoria = choiceCategoria.getValue();
+
+            tarefa = new Tarefa(titulo, descricao, date, categoria, usuario);
+
+            TarefaService.createTarefa(tarefa);
+        } else {
+            usuario = tarefa.getUsuario();
+            categoria = choiceCategoria.getValue();
+
+            tarefa = new Tarefa(titulo, descricao, date, categoria, usuario);
+            TarefaService.updateTarefa(this.tarefa, tarefa);
+        }
 
         stage.close();
     }
@@ -68,7 +92,9 @@ public class GerenciarTarefa implements Initializable {
             // verifica se o dado do stage for o usuário
             Tarefa tarefa = stage.getUserData() instanceof Usuario ? null : (Tarefa) stage.getUserData();
 
-            if (tarefa != null) {
+            novaTarefa = tarefa == null;
+
+            if (!novaTarefa) {
                 this.tarefa = tarefa;
                 labelTitulo.setText("Editar tarefa:");
 
@@ -76,8 +102,17 @@ public class GerenciarTarefa implements Initializable {
                 fieldDescricao.setText(tarefa.getDescricao());
                 datePicker.setValue(tarefa.getDataVencimento());
 
-                choiceCategoria.getItems().setAll(); // TODO: setar pra categoria tb
+                tipoTarefas = FXCollections.observableList(UsuarioService.readCategoriasUsuario(tarefa.getUsuario()));
+
+                choiceCategoria.setValue(tarefa.getTipoTarefa());
+            } else {
+                Usuario usuario = (Usuario) stage.getUserData();
+
+                tipoTarefas = FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario));
+                choiceCategoria.setValue(tipoTarefas.get(0));
             }
+
+            choiceCategoria.setItems(tipoTarefas);
         });
     }
 }

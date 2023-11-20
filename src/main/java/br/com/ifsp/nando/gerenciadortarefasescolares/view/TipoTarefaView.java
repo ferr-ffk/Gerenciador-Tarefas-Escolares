@@ -1,7 +1,9 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.view;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
+import br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Painel;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.TipoTarefaService;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -44,11 +46,21 @@ public class TipoTarefaView extends HBox {
         botaoEditar.setOnAction(event -> {
             carregarCenaEditarCategoria();
         });
+        Button botaoExcluir = new Button("Excluir");
+        botaoExcluir.setOnAction(event -> removerCategoria(this));
 
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(10f);
         setPadding(new Insets(10, 15, 10, 15));
-        getChildren().addAll(simbolo, vBox, botaoEditar);
+        getChildren().addAll(simbolo, vBox, botaoEditar, botaoExcluir);
+    }
+
+    private void removerCategoria(TipoTarefaView tipoTarefaView) {
+        TipoTarefaService.deleteTipoTarefa(tipoTarefaView.tipoTarefa);
+
+        // atualiza o painel principal
+        Painel painelController = new Painel();
+        painelController.atualizar();
     }
 
     private void carregarCenaEditarCategoria() {

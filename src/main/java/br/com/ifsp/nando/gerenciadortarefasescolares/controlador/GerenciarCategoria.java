@@ -6,7 +6,6 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.services.TipoTarefaService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -34,33 +33,40 @@ public class GerenciarCategoria implements Initializable {
     private ColorPicker corCategoria;
 
     @FXML
-    private Button botaoCriarCategoria;
+    private Label labelErro;
 
     private TipoTarefa tipoTarefa;
 
-    private boolean novaTarefa;
+    private boolean novaCategoria;
 
     @FXML
     private void criarCategoria() {
         String nome = nomeCategoria.getText();
-
         Color cor = corCategoria.getValue();
+
+        boolean categoriaInvalida = nome.isEmpty();
+
+        if(categoriaInvalida) {
+            labelErro.setText("O nome da categoria não pode ser vazio!");
+
+            return;
+        }
 
         Usuario usuario;
 
-        if(novaTarefa) {
+        if(novaCategoria) {
             usuario = (Usuario) stage.getUserData();
+            TipoTarefa tipoTarefa = new TipoTarefa(nome, cor, usuario);
+
+            System.out.println(tipoTarefa);
+            TipoTarefaService.createTipoTarefa(tipoTarefa);
         } else {
             usuario = tipoTarefa.getUsuario();
+            TipoTarefa tipoTarefa = new TipoTarefa(nome, cor, usuario);
+
+            System.out.println(tipoTarefa);
+            TipoTarefaService.updateTipoTarefa(this.tipoTarefa, tipoTarefa);
         }
-
-        // fixme: o getUserData retorna a tarefa quando for editar
-
-        TipoTarefa tipoTarefa = new TipoTarefa(nome, cor, usuario);
-
-        System.out.println(tipoTarefa);
-
-        TipoTarefaService.createTipoTarefa(tipoTarefa);
 
         stage.close();
     }
@@ -72,9 +78,9 @@ public class GerenciarCategoria implements Initializable {
 
             TipoTarefa tipoTarefa = stage.getUserData() instanceof Usuario ? null : (TipoTarefa) stage.getUserData();
 
-            novaTarefa = tipoTarefa == null;
+            novaCategoria = tipoTarefa == null;
 
-            if(!novaTarefa) {
+            if(!novaCategoria) {
                 this.tipoTarefa = tipoTarefa;
                 labelTitulo.setText("Editar categoria:");
 

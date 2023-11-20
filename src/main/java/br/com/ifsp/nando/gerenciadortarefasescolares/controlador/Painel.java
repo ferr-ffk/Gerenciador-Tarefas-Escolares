@@ -4,7 +4,9 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
+import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TarefaView;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TipoTarefaView;
 import javafx.application.Platform;
@@ -45,8 +47,25 @@ public class Painel implements Initializable {
     private Label labelTitulo;
 
     @FXML
+    private TextField fieldNovoApelido;
+
+    @FXML
+    private PasswordField fieldSenhaAtual;
+
+    @FXML
+    private PasswordField fieldNovaSenha;
+
+    @FXML
+    private PasswordField fieldConfirmarNovaSenha;
+
+    @FXML
+    private void gerarRelatorio() {
+
+    }
+
+    @FXML
     private void logout() {
-        stage.close();
+        fecharJanelaComAviso(stage);
     }
 
     @FXML
@@ -60,6 +79,7 @@ public class Painel implements Initializable {
 
         usuario = (Usuario) stage.getUserData();
 
+        JavaFXUtil.setJanelaPadrao(stageCriarTarefa);
         stageCriarTarefa.setUserData(usuario);
         stageCriarTarefa.setScene(scene);
         stageCriarTarefa.show();
@@ -76,16 +96,23 @@ public class Painel implements Initializable {
 
         usuario = (Usuario) stage.getUserData();
 
+        JavaFXUtil.setJanelaPadrao(stageCriarCategoria);
         stageCriarCategoria.setUserData(usuario);
         stageCriarCategoria.setScene(scene);
         stageCriarCategoria.show();
+    }
+
+    @FXML
+    public void atualizar() {
+        atualizarTarefas();
+        atualizarCategorias();
     }
 
     /**
      * Atualiza as tarefas da ListView para renderizar
      */
     @FXML
-    public void atualizarTarefas() {
+    private void atualizarTarefas() {
         tarefas = FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario));
 
         listaTarefas.getItems().clear();
@@ -98,7 +125,7 @@ public class Painel implements Initializable {
      * Atualiza as categorias da ListView para renderizar
      */
     @FXML
-    public void atualizarCategorias() {
+    private void atualizarCategorias() {
         categorias = FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario));
 
         listaCategorias.getItems().clear();
@@ -117,16 +144,30 @@ public class Painel implements Initializable {
             atualizarTarefas();
             atualizarCategorias();
 
+            stage.setOnCloseRequest(event -> {
+                // previne o fechamento automático da janela
+                event.consume();
+                fecharJanelaComAviso(stage);
+            });
+
             String nome = usuario.getApelido().isEmpty() ? usuario.getNomeUsuario() : usuario.getApelido();
             labelTitulo.setText("Bem vindo " + nome + "!");
         });
     }
-}
 
-/*
- *  TODO: pegar a lista de categorias e colocar na tab Categorias
- *
- *  TODO: Colocar o ngc de editar a tarefa e a categoria
- *
- *  apesar disso, sabia q o projeto ta quase pronto? parabens lindo vc fez bem
- */
+    private void fecharJanelaComAviso(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Sair");
+        alert.setHeaderText("Você está prestes a sair!");
+        alert.setContentText("Qualquer alteração não salva será perdida!");
+
+        if(alert.showAndWait().isPresent() && alert.showAndWait().get() == ButtonType.OK) {
+            // filtra as tarefas que foram marcadas como concluídas
+            tarefas = FXCollections.observableList(tarefas.stream().filter(tarefa -> tarefa.getConcluida()).toList());
+            UsuarioService.deletarTarefasUsuario(usuario);
+            tarefas.forEach(TarefaService::createTarefa);
+
+            stage.close();
+        }
+    }
+}

@@ -4,9 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -15,76 +17,102 @@
 <?import javafx.scene.text.Font?>
 
 <FlowPane fx:id="painel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="397.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Painel">
-   <children>
-      <FlowPane prefHeight="616.0" prefWidth="613.0">
-         <children>
-            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="675.0">
-               <children>
-                  <TabPane prefHeight="587.0" prefWidth="465.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                     <tabs>
-                        <Tab fx:id="tabTarefas" text="Tarefas">
-                           <content>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+    <children>
+        <FlowPane prefHeight="616.0" prefWidth="613.0">
+            <children>
+                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="799.0">
+                    <children>
+                        <TabPane prefHeight="587.0" prefWidth="818.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                            <tabs>
+                                <Tab fx:id="tabTarefas" text="Tarefas">
+                                    <content>
+                                        <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0">
+                                            <children>
+                                                <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="536.0" prefWidth="799.0" vbarPolicy="ALWAYS">
+                                                    <content>
+                                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
+                                                            <children>
+                                                                <ListView fx:id="listaTarefas" maxWidth="1.7976931348623157E308" prefHeight="542.0" prefWidth="800.0" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                </ScrollPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab fx:id="tabCategorias" text="Categorias">
+                                    <content>
+                                        <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="259.0" prefWidth="548.0">
+                                            <children>
+                                                <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="531.0" prefWidth="799.0" vbarPolicy="ALWAYS">
+                                                    <content>
+                                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
+                                                            <children>
+                                                                <ListView fx:id="listaCategorias" maxWidth="1.7976931348623157E308" prefHeight="562.0" prefWidth="800.0" />
+                                                            </children>
+                                                        </AnchorPane>
+                                                    </content>
+                                                </ScrollPane>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                        <Tab text="Usuário">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="447.0" prefWidth="675.0" vbarPolicy="ALWAYS">
-                                      <content>
-                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
-                                             <children>
-                                                <ListView fx:id="listaTarefas" maxWidth="1.7976931348623157E308" prefHeight="562.0" prefWidth="675.0" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                 </children></AnchorPane>
-                           </content>
+                                    <Label layoutX="34.0" layoutY="34.0" text="Configurações">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="fieldNovoApelido" layoutX="33.0" layoutY="117.0" prefHeight="25.0" prefWidth="190.0" promptText="Novo apelido" />
+                                    <Button layoutX="251.0" layoutY="117.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Alterar apelido" />
+                                    <PasswordField fx:id="fieldSenhaAtual" layoutX="33.0" layoutY="220.0" prefHeight="25.0" prefWidth="252.0" promptText="Senha atual" />
+                                    <PasswordField fx:id="fieldNovaSenha" layoutX="34.0" layoutY="261.0" prefHeight="25.0" prefWidth="252.0" promptText="Nova senha" />
+                                    <PasswordField fx:id="fieldConfirmarNovaSenha" layoutX="33.0" layoutY="302.0" prefHeight="25.0" prefWidth="252.0" promptText="Confirme a senha" />
+                                    <Button layoutX="301.0" layoutY="261.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" text="Alterar senha" />
+                                    <Label layoutX="34.0" layoutY="86.0" prefHeight="25.0" prefWidth="190.0" text="Alterar apelido de usuário">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="33.0" layoutY="189.0" prefHeight="25.0" prefWidth="190.0" text="Alterar senha">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Button layoutX="34.0" layoutY="387.0" mnemonicParsing="false" onAction="#gerarRelatorio" prefHeight="41.0" prefWidth="190.0" text="Gerar relatório" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
                         </Tab>
-                        <Tab fx:id="tabCategorias" text="Categorias">
-                           <content>
-                              <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="259.0" prefWidth="548.0">
-                                 <children>
-                                    <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="562.0" prefWidth="675.0" vbarPolicy="ALWAYS">
-                                      <content>
-                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
-                                             <children>
-                                                <ListView fx:id="listaCategorias" maxWidth="1.7976931348623157E308" prefHeight="562.0" prefWidth="675.0" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                 </children></AnchorPane>
-                           </content>
-                        </Tab>
-                     </tabs>
-                  </TabPane>
-               </children>
-            </VBox>
-            <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="54.0" prefWidth="675.0">
-               <items>
-                  <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="44.0" prefWidth="269.0" spacing="15.0">
-                     <children>
-                        <Label fx:id="labelTitulo" prefHeight="55.0" prefWidth="190.0" text="Label" textAlignment="CENTER">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                           <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                           </padding>
-                        </Label>
-                        <VBox alignment="CENTER" prefHeight="55.0" prefWidth="49.0" spacing="1.0">
-                           <children>
-                              <Button mnemonicParsing="false" prefWidth="47.0" text="Sobre" />
-                              <Button mnemonicParsing="false" text="Autor" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <Button mnemonicParsing="false" onAction="#atualizarTarefas" text="Atualizar" />
-                  <Button mnemonicParsing="false" onAction="#cenaCriarCategoria" text="Gerenciar categorias..." />
-                  <Button mnemonicParsing="false" onAction="#cenaCriarTarefa" text="Gerenciar tarefas..." />
-                  <Button mnemonicParsing="false" onAction="#logout" text="Sair" />
-               </items>
-            </ToolBar>
-         </children>
-      </FlowPane>
-   </children>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+                <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="800.0">
+                    <items>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="55.0" prefWidth="409.0" spacing="15.0">
+                            <children>
+                                <Label fx:id="labelTitulo" prefHeight="55.0" prefWidth="190.0" text="Label" textAlignment="CENTER">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                    <padding>
+                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                    </padding>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <Button mnemonicParsing="false" onAction="#atualizar" text="Atualizar" />
+                        <Button mnemonicParsing="false" onAction="#cenaCriarCategoria" text="Gerenciar categorias..." />
+                        <Button mnemonicParsing="false" onAction="#cenaCriarTarefa" text="Gerenciar tarefas..." />
+                        <Button mnemonicParsing="false" onAction="#logout" text="Sair" />
+                    </items>
+                </ToolBar>
+            </children>
+        </FlowPane>
+    </children>
 </FlowPane>

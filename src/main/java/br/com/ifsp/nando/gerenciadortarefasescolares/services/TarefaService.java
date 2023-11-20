@@ -18,7 +18,7 @@ public class TarefaService {
      */
     public static void createTarefa(Tarefa t) {
         Transaction transaction = session.beginTransaction();
-        session.persist(t);
+        session.merge(t);
         transaction.commit();
     }
 
@@ -55,6 +55,17 @@ public class TarefaService {
         Transaction transaction = session.getTransaction();
         session.persist(tarefa);
         transaction.commit();
+    }
+
+    public static void updateTarefa(Tarefa tarefaAntiga, Tarefa tarefaNova) {
+       Transaction transaction = session.beginTransaction();
+
+       System.out.println("Resultado -> " + session.get(Tarefa.class, 1));
+       Tarefa tarefa = session.get(Tarefa.class, tarefaAntiga);
+       tarefa = tarefaNova;
+       session.persist(tarefa);
+
+       transaction.commit();
     }
 
     /**

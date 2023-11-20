@@ -2,18 +2,20 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.controlador;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class CriarConta {
 
-    private Stage stageCriarConta;
-
     @FXML
-    private BorderPane cenaCriarConta;
+    private AnchorPane cenaCriarConta;
 
     @FXML
     public Button botao_criar_usuario;
@@ -30,18 +32,37 @@ public class CriarConta {
     @FXML
     public PasswordField confirmar;
 
-    public void onCriarUsuario(ActionEvent event) {
+    @FXML
+    private Label labelErro;
+
+    public void onCriarUsuario() {
+        List<Usuario> usuarios = UsuarioService.readUsuarios();
+
         boolean senhaValida = confirmar.getText().equals(senha.getText());
 
         if(!senhaValida) {
+            labelErro.setText("As senhas devem ser iguais!");
+
             return;
         }
 
         String apelido_banco = apelido_usuario.getText();
-
         String usuario_banco = nome_usuario.getText();
-
         String senha_banco = senha.getText();
+
+        boolean usuarioJaCadastrado = usuarios.stream().anyMatch(usuario -> usuario.getNomeUsuario().equals(usuario_banco));
+
+        if(senha_banco.isEmpty() || usuario_banco.isEmpty()) {
+            labelErro.setText("Os campos não podem ser nulos!");
+
+            return;
+        }
+
+        if(usuarioJaCadastrado) {
+            labelErro.setText("O nome de usuário " + usuario_banco + " já existe!");
+
+            return;
+        }
 
         fecharJanela();
 
@@ -53,25 +74,8 @@ public class CriarConta {
      * Obtém a janela atual do contexto e fecha ela (sem avisos)
      */
     private void fecharJanela() {
-        stageCriarConta = (Stage) cenaCriarConta.getScene().getWindow();
+        Stage stageCriarConta = (Stage) cenaCriarConta.getScene().getWindow();
         stageCriarConta.close();
     }
 
-    /**
-     * Obtém a janela atual do contexto e lança um aviso para o usuário dizendo que qualquer alteração não salva será perdida,
-     * o usuário pode então cancelar a operação ou prosseguir e fechar a janela.
-     *
-     * @param event O objeto de evento
-     */
-    public void fecharJanelaComAviso(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Sair");
-        alert.setHeaderText("Você está prestes a sair!");
-        alert.setContentText("Qualquer alteração não salva será perdida!");
-
-        if(alert.showAndWait().isPresent() && alert.showAndWait().get() == ButtonType.OK) {
-            stageCriarConta = (Stage) cenaCriarConta.getScene().getWindow();
-            stageCriarConta.close();
-        }
-    }
 }

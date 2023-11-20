@@ -27,6 +27,9 @@ public class Usuario {
     @Column
     private String senha;
 
+    @Transient
+    private Relatorio relatorio;
+
     public Usuario() {
     }
 
@@ -59,6 +62,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Relatorio gerarRelatorio() {
+        Relatorio relatorio = Relatorio.gerarRelatorio(this);
+
+        this.relatorio = relatorio;
+        return relatorio;
     }
 
     @Override

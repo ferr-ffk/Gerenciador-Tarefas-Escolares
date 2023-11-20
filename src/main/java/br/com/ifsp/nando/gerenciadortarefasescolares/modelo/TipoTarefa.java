@@ -41,7 +41,7 @@ public class TipoTarefa {
 
     @Override
     public String toString() {
-        return "CATEGORIA: {" + nome + ", " + cor + "} do " + idUsuario;
+        return nome + ", " + cor;
     }
 
     public String getNome() {
@@ -57,15 +57,11 @@ public class TipoTarefa {
     }
 
     public void excluir() {
-        this.excluida = true;
+        this.excluida = !excluida;
     }
 
     public void setCor(String cor) {
         this.cor = cor;
-    }
-
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public Usuario getUsuario() {

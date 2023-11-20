@@ -41,20 +41,19 @@ public class TarefaView extends HBox {
         Label descricao = new Label(tarefa.getDescricao());
 
         vBox.getChildren().addAll(titulo, descricao);
-        vBox.setSpacing(5f);
+        vBox.setSpacing(2.5f);
 
         TipoTarefa tipoTarefa = tarefa.getTipoTarefa();
         Circle simbolo = new Circle(10, tipoTarefa.getCor());
 
         Button botaoEditar = new Button("Editar");
-        botaoEditar.setOnAction(event -> {
-            carregarCenaEditarTarefa();
-        });
+        botaoEditar.setOnAction(event -> carregarCenaEditarTarefa());
 
         CheckBox botaoConcluir = new CheckBox("Concluir");
+        botaoConcluir.setOnAction(event -> this.tarefa.concluir());
 
         setAlignment(Pos.CENTER_LEFT);
-        setSpacing(10f);
+        setSpacing(7.5f);
         setPadding(new Insets(10, 15, 10, 15));
         getChildren().addAll(simbolo, vBox, botaoEditar, botaoConcluir);
     }
@@ -63,7 +62,7 @@ public class TarefaView extends HBox {
         Stage stageCriarConta = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GerenciarTarefa.fxml"));
-        Scene scene = null;
+        Scene scene;
 
         try {
             scene = new Scene(fxmlLoader.load());

@@ -9,8 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="cenaCriarCategoria" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.GerenciarCategoria" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="cenaCriarCategoria" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="323.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.GerenciarCategoria">
    <children>
       <Label fx:id="labelTitulo" layoutX="40.0" layoutY="23.0" text="Nova categoria:">
          <font>
@@ -22,7 +21,7 @@
             <TextField fx:id="nomeCategoria" prefHeight="25.0" prefWidth="200.0" promptText="Digite o nome para a categoria..." />
          </children>
       </FlowPane>
-      <FlowPane layoutX="40.0" layoutY="130.0" prefHeight="50.0" prefWidth="244.0">
+      <FlowPane layoutX="40.0" layoutY="118.0" prefHeight="50.0" prefWidth="244.0">
          <children>
             <Label prefHeight="25.0" prefWidth="244.0" text="Escolha uma cor para destaque:">
                <font>
@@ -37,5 +36,10 @@
          </children>
       </FlowPane>
       <Button fx:id="botaoCriarCategoria" layoutX="77.0" layoutY="273.0" mnemonicParsing="false" onAction="#criarCategoria" prefHeight="31.0" prefWidth="88.0" text="Criar" />
+      <Label fx:id="labelErro" layoutX="40.0" layoutY="185.0" prefHeight="50.0" prefWidth="244.0" textFill="RED" wrapText="true">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

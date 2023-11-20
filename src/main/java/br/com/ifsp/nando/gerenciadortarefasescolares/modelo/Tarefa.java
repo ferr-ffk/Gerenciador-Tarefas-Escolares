@@ -43,7 +43,7 @@ public class Tarefa {
 
     public Tarefa() {}
 
-    public Tarefa(String titulo, String descricao, LocalDate dataVencimento, TipoTarefa categoria, Usuario idUsuario) {
+    public Tarefa(String titulo, String descricao, LocalDate dataVencimento, TipoTarefa idCategoria, Usuario idUsuario) {
         super();
         this.titulo = titulo;
         this.descricao = descricao;
@@ -51,7 +51,7 @@ public class Tarefa {
         this.dataVencimento = dataVencimento;
 
         this.idUsuario = idUsuario;
-        this.idCategoria = categoria;
+        this.idCategoria = idCategoria;
 
         this.excluida = false;
         this.concluida = false;
@@ -86,7 +86,7 @@ public class Tarefa {
     }
 
     public void concluir() {
-        this.concluida = true;
+        this.concluida = !concluida;
     }
 
     public boolean getConcluida() { return concluida; }
@@ -94,7 +94,7 @@ public class Tarefa {
     public boolean getExcluida() { return excluida; }
 
     public void excluir() {
-        this.excluida = true;
+        this.excluida = !excluida;
     }
 
     public TipoTarefa getTipoTarefa() { return this.idCategoria; }

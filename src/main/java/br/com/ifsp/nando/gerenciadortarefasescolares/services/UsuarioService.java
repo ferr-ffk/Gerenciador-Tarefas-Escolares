@@ -30,7 +30,7 @@ public class UsuarioService {
      * @return A lista de usuários cadastrados
      */
     public static List<Usuario> readUsuarios() {
-        return session.createQuery("from Usuario", Usuario.class).list();
+        return session.createQuery("FROM Usuario", Usuario.class).list();
     }
 
     /**
@@ -52,6 +52,23 @@ public class UsuarioService {
     public static List<Tarefa> readTarefaUsuario(Usuario usuario) {
         return session.createQuery("FROM Tarefa t WHERE t.idUsuario = :id", Tarefa.class).setParameter("id", usuario).list();
     }
+
+    public static void deletarTarefasUsuario(Usuario usuario) {
+        Transaction transaction = session.beginTransaction();
+        session.createQuery("FROM Tarefa t WHERE t.idUsuario = :id", Tarefa.class).setParameter("id", usuario).list().forEach(session::remove);
+        transaction.commit();
+    }
+
+    /*
+        TODO: TUDO VEI KKKKKKKKKKKKK
+
+        todo: geração de relatórios
+        todo: edição das tarefas e categorias
+        todo: configurações (mudar apelido, senha)
+        todo: deletar usuário tb!!
+
+        apesar disso real eu acho que acaba tudo, nem vou querer fazer mais que isso tb KKKKKKKKK
+     */
 
     /**
      * Retorna a lista de categorias pertencentes a um usuário
