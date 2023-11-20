@@ -4,7 +4,7 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.view.GerenciadorTarefasEsco
 
 public class Main {
 
-    public static final String VERSAO_GERENCIADOR = "0.4-betha";
+    public static final String VERSAO_GERENCIADOR = "0.8-alpha";
 
     public static void main(String[] args) {
         GerenciadorTarefasEscolares.main(args);

@@ -1,14 +1,12 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.view;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
-import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,51 +16,45 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
-public class TarefaView extends HBox {
+public class TipoTarefaView extends HBox {
 
-    private Tarefa tarefa;
+    private TipoTarefa tipoTarefa;
 
     /**
-     * Um componente de tarefa em forma de item em uma lista. Possui o checkbox e um botão para editar
+     * Um componente de tipoTarefa em forma de item em uma lista. Possui o checkbox e um botão para editar
      *
-     * @param tarefa A tarefa correspondente
+     * @param tipoTarefa A tipoTarefa correspondente
      */
-    public TarefaView(Tarefa tarefa) {
+    public TipoTarefaView(TipoTarefa tipoTarefa) {
         final String bullet = "\u2023";
-        this.tarefa = tarefa;
+        this.tipoTarefa = tipoTarefa;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        String data = dtf.format(tarefa.getDataVencimento());
-
         VBox vBox = new VBox();
 
-        Label titulo = new Label(tarefa.getTitulo() + " " + bullet + " " + data);
-        Label descricao = new Label(tarefa.getDescricao());
+        Label titulo = new Label(tipoTarefa.getNome());
 
-        vBox.getChildren().addAll(titulo, descricao);
+        vBox.getChildren().addAll(titulo);
         vBox.setSpacing(5f);
 
-        TipoTarefa tipoTarefa = tarefa.getTipoTarefa();
         Circle simbolo = new Circle(10, tipoTarefa.getCor());
 
         Button botaoEditar = new Button("Editar");
         botaoEditar.setOnAction(event -> {
-            carregarCenaEditarTarefa();
+            carregarCenaEditarCategoria();
         });
-
-        CheckBox botaoConcluir = new CheckBox("Concluir");
 
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(10f);
         setPadding(new Insets(10, 15, 10, 15));
-        getChildren().addAll(simbolo, vBox, botaoEditar, botaoConcluir);
+        getChildren().addAll(simbolo, vBox, botaoEditar);
     }
 
-    private void carregarCenaEditarTarefa() {
+    private void carregarCenaEditarCategoria() {
         Stage stageCriarConta = new Stage();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GerenciarTarefa.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GerenciarCategoria.fxml"));
         Scene scene = null;
 
         try {
@@ -71,16 +63,16 @@ public class TarefaView extends HBox {
             throw new RuntimeException(e);
         }
 
-        stageCriarConta.setUserData(tarefa);
+        stageCriarConta.setUserData(tipoTarefa);
         stageCriarConta.setScene(scene);
         stageCriarConta.show();
     }
 
-    public Tarefa getTarefa() {
-        return tarefa;
+    public TipoTarefa getTipoTarefa() {
+        return tipoTarefa;
     }
 
-    public void setTarefa(Tarefa tarefa) {
-        this.tarefa = tarefa;
+    public void setTipoTarefa(TipoTarefa tipoTarefa) {
+        this.tipoTarefa = tipoTarefa;
     }
 }

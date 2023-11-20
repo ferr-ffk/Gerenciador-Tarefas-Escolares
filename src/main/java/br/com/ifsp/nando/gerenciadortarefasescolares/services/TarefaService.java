@@ -50,7 +50,7 @@ public class TarefaService {
     public static void updateTarefa(Integer id, Tarefa t) {
         Tarefa tarefa = TarefaService.readTarefa(id);
 
-        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa(), t.getIdUsuario());
+        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa(), t.getUsuario());
 
         Transaction transaction = session.getTransaction();
         session.persist(tarefa);
@@ -74,4 +74,14 @@ public class TarefaService {
         transaction.commit();
     }
 
+    /**
+     * Deleta permanentemente uma tarefa no banco de dados à partir do objeto fornecido
+     *
+     * @param tarefa O objeto tarefa a ser removida
+     */
+    public static void deleteTarefa(Tarefa tarefa) {
+        Transaction transaction = session.beginTransaction();
+        session.remove(tarefa);
+        transaction.commit();
+    }
 }

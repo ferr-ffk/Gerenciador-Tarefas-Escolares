@@ -37,8 +37,8 @@ public class Tarefa {
     @Column
     private Boolean excluida;
 
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idUsuario")
+    @ManyToOne
     private Usuario idUsuario;
 
     public Tarefa() {}
@@ -50,9 +50,11 @@ public class Tarefa {
 
         this.dataVencimento = dataVencimento;
 
-        this.idCategoria = categoria;
-        this.concluida = false;
         this.idUsuario = idUsuario;
+        this.idCategoria = categoria;
+
+        this.excluida = false;
+        this.concluida = false;
     }
 
     public String getTitulo() {
@@ -87,15 +89,17 @@ public class Tarefa {
         this.concluida = true;
     }
 
+    public boolean getConcluida() { return concluida; }
+
+    public boolean getExcluida() { return excluida; }
+
     public void excluir() {
         this.excluida = true;
     }
 
     public TipoTarefa getTipoTarefa() { return this.idCategoria; }
 
-    public Usuario getIdUsuario() {
-        return this.idUsuario;
-    }
+    public Usuario getUsuario() { return this.idUsuario; }
 
     @Override
     public String toString() {

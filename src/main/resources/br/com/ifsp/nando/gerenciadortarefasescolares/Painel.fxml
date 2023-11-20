@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -10,31 +12,16 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<FlowPane fx:id="painel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Painel">
+<FlowPane fx:id="painel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="397.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Painel">
    <children>
       <FlowPane prefHeight="616.0" prefWidth="613.0">
          <children>
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="675.0">
                <children>
-                  <TabPane onMouseClicked="#onClickTabTarefas" prefHeight="587.0" prefWidth="675.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                  <TabPane prefHeight="587.0" prefWidth="465.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                      <tabs>
-                        <Tab fx:id="tabCategorias" text="Categorias">
-                           <content>
-                              <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="259.0" prefWidth="548.0">
-                                 <children>
-                                    <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="562.0" prefWidth="675.0" vbarPolicy="ALWAYS">
-                                      <content>
-                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
-                                             <children>
-                                                <ListView fx:id="listaCategorias" maxWidth="1.7976931348623157E308" prefHeight="562.0" prefWidth="675.0" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </ScrollPane>
-                                 </children></AnchorPane>
-                           </content>
-                        </Tab>
                         <Tab fx:id="tabTarefas" text="Tarefas">
                            <content>
                               <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -51,21 +38,49 @@
                                  </children></AnchorPane>
                            </content>
                         </Tab>
+                        <Tab fx:id="tabCategorias" text="Categorias">
+                           <content>
+                              <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="259.0" prefWidth="548.0">
+                                 <children>
+                                    <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="562.0" prefWidth="675.0" vbarPolicy="ALWAYS">
+                                      <content>
+                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
+                                             <children>
+                                                <ListView fx:id="listaCategorias" maxWidth="1.7976931348623157E308" prefHeight="562.0" prefWidth="675.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
                      </tabs>
                   </TabPane>
                </children>
             </VBox>
             <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="54.0" prefWidth="675.0">
                <items>
-                  <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="44.0" prefWidth="351.0" spacing="15.0">
+                  <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="44.0" prefWidth="269.0" spacing="15.0">
                      <children>
-                        <Button mnemonicParsing="false" text="Sobre" />
-                        <Button mnemonicParsing="false" text="Autor" />
+                        <Label fx:id="labelTitulo" prefHeight="55.0" prefWidth="190.0" text="Label" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </Label>
+                        <VBox alignment="CENTER" prefHeight="55.0" prefWidth="49.0" spacing="1.0">
+                           <children>
+                              <Button mnemonicParsing="false" prefWidth="47.0" text="Sobre" />
+                              <Button mnemonicParsing="false" text="Autor" />
+                           </children>
+                        </VBox>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" onAction="#atualizar" text="Atualizar" />
-                  <Button mnemonicParsing="false" onAction="#gerenciarCategorias" text="Gerenciar categorias..." />
-                  <Button mnemonicParsing="false" onAction="#gerenciarTarefas" text="Gerenciar tarefas..." />
+                  <Button mnemonicParsing="false" onAction="#atualizarTarefas" text="Atualizar" />
+                  <Button mnemonicParsing="false" onAction="#cenaCriarCategoria" text="Gerenciar categorias..." />
+                  <Button mnemonicParsing="false" onAction="#cenaCriarTarefa" text="Gerenciar tarefas..." />
                   <Button mnemonicParsing="false" onAction="#logout" text="Sair" />
                </items>
             </ToolBar>
