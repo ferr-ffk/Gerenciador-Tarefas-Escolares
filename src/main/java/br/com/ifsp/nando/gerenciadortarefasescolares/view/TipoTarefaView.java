@@ -18,7 +18,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
 
 public class TipoTarefaView extends HBox {
 
@@ -31,8 +30,6 @@ public class TipoTarefaView extends HBox {
      */
     public TipoTarefaView(TipoTarefa tipoTarefa) {
         this.tipoTarefa = tipoTarefa;
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         VBox vBox = new VBox();
 

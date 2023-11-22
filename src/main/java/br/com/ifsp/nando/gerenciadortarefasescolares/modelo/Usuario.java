@@ -82,13 +82,12 @@ public class Usuario {
         return this.numeroTarefasCriadas;
     }
 
-    public Relatorio gerarRelatorio() {
-        return Relatorio.gerarRelatorio(this);
-    }
-
     @Override
     public String toString() {
         return "USUARIO [" + idUsuario + "]: {" + apelido + ", " + nomeUsuario + ", " + senha + ", concluiu " + numeroTarefasConcluidas + " de " + numeroTarefasCriadas + "}";
     }
 
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
 }

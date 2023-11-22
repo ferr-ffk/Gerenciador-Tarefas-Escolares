@@ -97,10 +97,6 @@ public class Tarefa {
         return concluida;
     }
 
-    public boolean getExcluida() {
-        return excluida;
-    }
-
     public TipoTarefa getTipoTarefa() {
         return this.idCategoria;
     }
@@ -120,5 +116,13 @@ public class Tarefa {
     @Override
     public String toString() {
         return "TAREFA: {" + titulo + ", " + descricao + ", CATEGORIA: (" + idCategoria + "), DATA: (" + dataVencimento.toString() + ")}";
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }

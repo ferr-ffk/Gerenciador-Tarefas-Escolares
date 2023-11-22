@@ -17,130 +17,142 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<FlowPane fx:id="painel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="397.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Painel">
-    <children>
-        <FlowPane prefHeight="616.0" prefWidth="613.0">
-            <children>
-                <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="562.0" prefWidth="799.0">
-                    <children>
-                        <TabPane prefHeight="587.0" prefWidth="818.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                            <tabs>
-                                <Tab fx:id="tabTarefas" text="Tarefas">
-                                    <content>
-                                        <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0">
-                                            <children>
-                                    <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="799.0" spacing="15.0">
-                                       <children>
-                                          <Label prefHeight="52.0" prefWidth="134.0" text="Filtrar por categoria:" />
-                                          <ChoiceBox fx:id="choiceFiltrarCategoria" onAction="#filtrarCategoria" prefWidth="150.0" />
-                                          <Button fx:id="botaoLimparFiltro" mnemonicParsing="false" onAction="#limparFiltro" text="Limpar filtro" />
-                                       </children>
-                                       <padding>
-                                          <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                       </padding>
-                                    </HBox>
-                                                <ScrollPane hbarPolicy="NEVER" hmax="0.0" layoutY="34.0" prefHeight="502.0" prefWidth="799.0" vbarPolicy="ALWAYS">
-                                                    <content>
-                                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
-                                                            <children>
-                                                                <ListView fx:id="listViewTarefas" layoutY="-1.0" maxWidth="1.7976931348623157E308" prefHeight="529.0" prefWidth="800.0" />
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </ScrollPane>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab fx:id="tabCategorias" text="Categorias">
-                                    <content>
-                                        <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="259.0" prefWidth="548.0">
-                                            <children>
-                                                <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="531.0" prefWidth="799.0" vbarPolicy="ALWAYS">
-                                                    <content>
-                                                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="300.0">
-                                                            <children>
-                                                                <ListView fx:id="listaCategorias" maxWidth="1.7976931348623157E308" prefHeight="562.0" prefWidth="800.0" />
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </ScrollPane>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                        <Tab text="Usuário">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <Label layoutX="34.0" layoutY="34.0" text="Configurações">
-                                       <font>
-                                          <Font size="24.0" />
-                                       </font>
-                                    </Label>
-                                    <TextField fx:id="fieldNovoApelido" layoutX="33.0" layoutY="117.0" prefHeight="25.0" prefWidth="190.0" promptText="Novo apelido" />
-                                    <Button fx:id="botaoNovoApelido" layoutX="251.0" layoutY="117.0" mnemonicParsing="false" onAction="#mudarApelido" prefHeight="25.0" prefWidth="99.0" text="Alterar apelido" />
-                                    <PasswordField fx:id="fieldSenhaAtual" layoutX="33.0" layoutY="220.0" prefHeight="25.0" prefWidth="252.0" promptText="Senha atual" />
-                                    <PasswordField fx:id="fieldNovaSenha" layoutX="34.0" layoutY="261.0" prefHeight="25.0" prefWidth="252.0" promptText="Nova senha" />
-                                    <PasswordField fx:id="fieldConfirmarNovaSenha" layoutX="33.0" layoutY="302.0" prefHeight="25.0" prefWidth="252.0" promptText="Confirme a senha" />
-                                    <Button fx:id="botaoTrocarSenha" layoutX="301.0" layoutY="261.0" mnemonicParsing="false" onAction="#trocarSenha" prefHeight="25.0" prefWidth="114.0" text="Alterar senha" />
-                                    <Label layoutX="34.0" layoutY="86.0" prefHeight="25.0" prefWidth="190.0" text="Alterar apelido de usuário">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label layoutX="33.0" layoutY="189.0" prefHeight="25.0" prefWidth="190.0" text="Alterar senha">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Button layoutX="34.0" layoutY="387.0" mnemonicParsing="false" onAction="#gerarRelatorio" prefHeight="41.0" prefWidth="190.0" text="Gerar relatório" />
-                                    <Label fx:id="tituloRelatorio" layoutX="455.0" layoutY="102.0" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="249.0" textAlignment="CENTER" wrapText="true">
-                                       <font>
-                                          <Font name="System Bold" size="16.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="descricaoRelatorio" layoutX="455.0" layoutY="150.0" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="250.0" textAlignment="CENTER" textFill="#515151" wrapText="true">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="paragrafoRelatorio" alignment="TOP_LEFT" layoutX="457.0" layoutY="206.0" maxWidth="1.7976931348623157E308" prefHeight="113.0" prefWidth="241.0" wrapText="true" />
-                                    <Label fx:id="labelErro" layoutX="34.0" layoutY="341.0" prefHeight="33.0" prefWidth="409.0" textFill="RED">
-                                       <font>
-                                          <Font name="System Bold" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Button fx:id="deletarConta" layoutX="33.0" layoutY="449.0" mnemonicParsing="false" onAction="#deletarConta" prefHeight="41.0" prefWidth="190.0" text="Deletar conta" />
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </Tab>
-                            </tabs>
-                        </TabPane>
-                    </children>
-                </VBox>
-                <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="800.0">
-                    <items>
-                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="55.0" prefWidth="409.0" spacing="15.0">
+<FlowPane fx:id="painel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL"
+          prefHeight="397.0" prefWidth="675.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="br.com.ifsp.nando.gerenciadortarefasescolares.controlador.Painel">
+    <FlowPane prefHeight="616.0" prefWidth="613.0">
+        <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity"
+              minWidth="-Infinity" prefHeight="562.0" prefWidth="799.0">
+            <TabPane prefHeight="587.0" prefWidth="818.0" tabClosingPolicy="UNAVAILABLE"
+                     VBox.vgrow="ALWAYS">
+                <Tab fx:id="tabTarefas" text="Tarefas">
+                    <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="200.0"
+                                prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="799.0"
+                              spacing="15.0">
                             <children>
-                                <Label fx:id="labelTitulo" prefHeight="55.0" prefWidth="415.0" text="Label" textAlignment="CENTER">
-                                    <font>
-                                        <Font size="16.0" />
-                                    </font>
-                                    <padding>
-                                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-                                    </padding>
-                                </Label>
+                                <Label prefHeight="52.0" prefWidth="134.0"
+                                       text="Filtrar por categoria:"/>
+                                <ChoiceBox fx:id="choiceFiltrarCategoria"
+                                           onAction="#filtrarCategoria" prefWidth="150.0"/>
+                                <Button fx:id="botaoLimparFiltro" mnemonicParsing="false"
+                                        onAction="#limparFiltro" text="Limpar filtro"/>
                             </children>
+                            <padding>
+                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0"/>
+                            </padding>
                         </HBox>
-                        <Button mnemonicParsing="false" onAction="#atualizar" text="Atualizar" />
-                        <Button mnemonicParsing="false" onAction="#cenaCriarCategoria" text="Gerenciar categorias..." />
-                        <Button mnemonicParsing="false" onAction="#cenaCriarTarefa" text="Gerenciar tarefas..." />
-                        <Button mnemonicParsing="false" onAction="#logout" text="Sair" />
-                    </items>
-                </ToolBar>
-            </children>
-        </FlowPane>
-    </children>
+                        <ScrollPane hbarPolicy="NEVER" hmax="0.0" layoutY="34.0" prefHeight="502.0"
+                                    prefWidth="799.0" vbarPolicy="ALWAYS">
+                            <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                        prefHeight="300.0">
+                                <children>
+                                    <ListView fx:id="listViewTarefas" layoutY="-1.0"
+                                              maxWidth="1.7976931348623157E308"
+                                              prefHeight="529.0" prefWidth="800.0"/>
+                                </children>
+                            </AnchorPane>
+                        </ScrollPane>
+                    </AnchorPane>
+                </Tab>
+                <Tab fx:id="tabCategorias" text="Categorias">
+                    <AnchorPane maxHeight="1.7976931348623157E308" prefHeight="259.0" prefWidth="548.0">
+                        <ScrollPane hbarPolicy="NEVER" hmax="0.0" prefHeight="531.0"
+                                    prefWidth="799.0" vbarPolicy="ALWAYS">
+                            <AnchorPane maxWidth="1.7976931348623157E308" minWidth="-Infinity"
+                                        prefHeight="300.0">
+                                <ListView fx:id="listaCategorias"
+                                          maxWidth="1.7976931348623157E308"
+                                          prefHeight="562.0" prefWidth="800.0"/>
+                            </AnchorPane>
+                        </ScrollPane>
+                    </AnchorPane>
+                </Tab>
+                <Tab text="Usuário">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <Label layoutX="34.0" layoutY="34.0" text="Configurações">
+                            <font>
+                                <Font size="24.0"/>
+                            </font>
+                        </Label>
+                        <TextField fx:id="fieldNovoApelido" layoutX="33.0" layoutY="117.0"
+                                   prefHeight="25.0" prefWidth="190.0" promptText="Novo apelido"/>
+                        <Button fx:id="botaoNovoApelido" layoutX="251.0" layoutY="117.0"
+                                mnemonicParsing="false" onAction="#mudarApelido" prefHeight="25.0"
+                                prefWidth="99.0" text="Alterar apelido"/>
+                        <PasswordField fx:id="fieldSenhaAtual" layoutX="33.0" layoutY="220.0"
+                                       prefHeight="25.0" prefWidth="252.0"
+                                       promptText="Senha atual"/>
+                        <PasswordField fx:id="fieldNovaSenha" layoutX="34.0" layoutY="261.0"
+                                       prefHeight="25.0" prefWidth="252.0" promptText="Nova senha"/>
+                        <PasswordField fx:id="fieldConfirmarNovaSenha" layoutX="33.0"
+                                       layoutY="302.0" prefHeight="25.0" prefWidth="252.0"
+                                       promptText="Confirme a senha"/>
+                        <Button fx:id="botaoTrocarSenha" layoutX="301.0" layoutY="261.0"
+                                mnemonicParsing="false" onAction="#trocarSenha" prefHeight="25.0"
+                                prefWidth="114.0" text="Alterar senha"/>
+                        <Label layoutX="34.0" layoutY="86.0" prefHeight="25.0" prefWidth="190.0"
+                               text="Alterar apelido de usuário">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label layoutX="33.0" layoutY="189.0" prefHeight="25.0" prefWidth="190.0"
+                               text="Alterar senha">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Button layoutX="34.0" layoutY="387.0" mnemonicParsing="false"
+                                onAction="#gerarRelatorio" prefHeight="41.0" prefWidth="190.0"
+                                text="Gerar relatório"/>
+                        <Label fx:id="tituloRelatorio" layoutX="455.0" layoutY="102.0"
+                               maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="249.0"
+                               textAlignment="CENTER" wrapText="true">
+                            <font>
+                                <Font name="System Bold" size="16.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="descricaoRelatorio" layoutX="455.0" layoutY="150.0"
+                               maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="250.0"
+                               textAlignment="CENTER" textFill="#515151" wrapText="true">
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+                        </Label>
+                        <Label fx:id="paragrafoRelatorio" alignment="TOP_LEFT" layoutX="457.0"
+                               layoutY="206.0" maxWidth="1.7976931348623157E308" prefHeight="113.0"
+                               prefWidth="241.0" wrapText="true"/>
+                        <Label fx:id="labelErro" layoutX="34.0" layoutY="341.0" prefHeight="33.0"
+                               prefWidth="409.0" textFill="RED">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
+                        </Label>
+                        <Button fx:id="deletarConta" layoutX="33.0" layoutY="449.0"
+                                mnemonicParsing="false" onAction="#deletarConta" prefHeight="41.0"
+                                prefWidth="190.0" text="Deletar conta"/>
+                    </AnchorPane>
+                </Tab>
+            </TabPane>
+        </VBox>
+        <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="800.0">
+            <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="55.0" prefWidth="409.0"
+                  spacing="15.0">
+                <Label fx:id="labelTitulo" prefHeight="55.0" prefWidth="415.0" text="Label"
+                       textAlignment="CENTER">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                    </padding>
+                </Label>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#atualizar" text="Atualizar"/>
+            <Button mnemonicParsing="false" onAction="#cenaCriarCategoria" text="Gerenciar categorias..."/>
+            <Button mnemonicParsing="false" onAction="#cenaCriarTarefa" text="Gerenciar tarefas..."/>
+            <Button mnemonicParsing="false" onAction="#logout" text="Sair"/>
+        </ToolBar>
+    </FlowPane>
 </FlowPane>

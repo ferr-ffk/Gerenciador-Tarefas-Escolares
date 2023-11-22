@@ -130,7 +130,7 @@ public class Painel implements Initializable {
         Relatorio relatorio = Relatorio.gerarRelatorio(usuario);
 
         final String nome = usuario.getApelido().isEmpty() ? usuario.getNomeUsuario() : usuario.getApelido();
-        final int tarefasCriadas = usuario.getNumeroTarefasCriadas();
+        final int tarefasCriadas = relatorio.getTarefasCriadas();
         final int tarefasConcluidas = relatorio.getTarefasConcluidas();
         final double porcentagem = relatorio.getPorcentagem();
 
