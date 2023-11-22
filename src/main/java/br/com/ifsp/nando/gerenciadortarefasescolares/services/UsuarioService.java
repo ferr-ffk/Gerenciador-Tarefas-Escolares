@@ -59,17 +59,6 @@ public class UsuarioService {
         transaction.commit();
     }
 
-    /*
-        TODO: TUDO VEI KKKKKKKKKKKKK
-
-        todo: geração de relatórios
-        todo: edição das tarefas e categorias
-        todo: configurações (mudar apelido, senha)
-        todo: deletar usuário tb!!
-
-        apesar disso real eu acho que acaba tudo, nem vou querer fazer mais que isso tb KKKKKKKKK
-     */
-
     /**
      * Retorna a lista de categorias pertencentes a um usuário
      *
