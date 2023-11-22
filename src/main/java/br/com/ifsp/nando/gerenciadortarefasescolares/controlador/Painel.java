@@ -7,6 +7,7 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
+import br.com.ifsp.nando.gerenciadortarefasescolares.view.GerenciadorTarefasEscolares;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TarefaView;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TipoTarefaView;
 import javafx.application.Platform;
@@ -18,9 +19,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -113,6 +117,7 @@ public class Painel implements Initializable {
      */
     @FXML
     private void atualizarTarefas() {
+        // tarefas.clear();
         tarefas = FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario));
 
         listaTarefas.getItems().clear();
@@ -120,6 +125,8 @@ public class Painel implements Initializable {
 
         tarefas.forEach(tarefa -> listaTarefas.getItems().add(new TarefaView(tarefa)));
     }
+
+    // todo: sseguinte ta dando monte de erro na hr de inserir tarefa, q ta persistindo a categoria tbm
 
     /**
      * Atualiza as categorias da ListView para renderizar
@@ -136,23 +143,41 @@ public class Painel implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // como o stage inicia nulo, é necssário usar o runLater pra deixar pra rodar após carregar td
-        Platform.runLater(() -> {
-            stage = (Stage) painel.getScene().getWindow();
-            usuario = (Usuario) stage.getUserData();
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Exceção na execução do programa");
 
-            atualizarTarefas();
-            atualizarCategorias();
+        final DialogPane dialogPane = dialog.getDialogPane();
 
-            stage.setOnCloseRequest(event -> {
-                // previne o fechamento automático da janela
-                event.consume();
-                fecharJanelaComAviso(stage);
+        dialogPane.getButtonTypes().addAll(ButtonType.OK);
+        dialogPane.getButtonTypes().addAll(ButtonType.CLOSE);
+
+        dialogPane.setContentText("Essa exceção veio de um processo interno");
+        dialog.initModality(Modality.APPLICATION_MODAL);
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+
+        try {
+            // como o stage inicia nulo, é necssário usar o runLater pra deixar pra rodar após carregar td
+            Platform.runLater(() -> {
+                stage = (Stage) painel.getScene().getWindow();
+                usuario = (Usuario) stage.getUserData();
+
+                atualizarTarefas();
+                atualizarCategorias();
+
+                stage.setOnCloseRequest(event -> {
+                    // previne o fechamento automático da janela
+                    event.consume();
+                    fecharJanelaComAviso(stage);
+                });
+
+                String nome = usuario.getApelido().isEmpty() ? usuario.getNomeUsuario() : usuario.getApelido();
+                labelTitulo.setText("Bem vindo " + nome + "!");
             });
-
-            String nome = usuario.getApelido().isEmpty() ? usuario.getNomeUsuario() : usuario.getApelido();
-            labelTitulo.setText("Bem vindo " + nome + "!");
-        });
+        } catch (Exception e) {
+            GerenciadorTarefasEscolares.ExibirJanelaExcecao(e, pw, sw, dialogPane, dialog);
+        }
     }
 
     private void fecharJanelaComAviso(Stage stage) {
@@ -161,11 +186,20 @@ public class Painel implements Initializable {
         alert.setHeaderText("Você está prestes a sair!");
         alert.setContentText("Qualquer alteração não salva será perdida!");
 
-        if(alert.showAndWait().isPresent() && alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().get() == ButtonType.OK) {
             // filtra as tarefas que foram marcadas como concluídas
-            tarefas = FXCollections.observableList(tarefas.stream().filter(tarefa -> tarefa.getConcluida()).toList());
+            tarefas = FXCollections.observableList(listaTarefas
+                    .getItems()
+                    .stream().map(TarefaView::getTarefa)
+                    .filter(tarefa -> !tarefa.getConcluida())
+                    .toList());
+
             UsuarioService.deletarTarefasUsuario(usuario);
-            tarefas.forEach(TarefaService::createTarefa);
+            tarefas.forEach(tarefa -> {
+                System.out.println(tarefa.getUsuario());
+                TarefaService.createTarefa(tarefa);
+            });
+            // fixme: n ta criando a porra da tarefa mann
 
             stage.close();
         }

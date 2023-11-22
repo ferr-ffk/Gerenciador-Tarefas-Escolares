@@ -28,7 +28,9 @@ public class Usuario {
     private String senha;
 
     @Transient
-    private Relatorio relatorio;
+    private int numeroTarefasConcluidas;
+
+    private int numeroTarefasCriadas;
 
     public Usuario() {
     }
@@ -64,11 +66,12 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public Relatorio gerarRelatorio() {
-        Relatorio relatorio = Relatorio.gerarRelatorio(this);
+    public void concluirTarefa() { this.numeroTarefasConcluidas++; }
 
-        this.relatorio = relatorio;
-        return relatorio;
+    public void criarTarefa() { this.numeroTarefasCriadas++; }
+
+    public Relatorio gerarRelatorio() {
+        return Relatorio.gerarRelatorio(this);
     }
 
     @Override

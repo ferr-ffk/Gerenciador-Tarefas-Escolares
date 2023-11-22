@@ -4,6 +4,7 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 
@@ -54,14 +55,14 @@ public class TipoTarefaService {
     /**
      * Atualiza uma categoria à partir de um novo objeto fornecido
      *
-     * @param id O id da categoria
+     * @param id             O id da categoria
      * @param novaTipoTarefa Os dados da nova categoria
      */
     public static void updateTipoTarefa(Integer id, TipoTarefa novaTipoTarefa) {
         Transaction transaction = session.beginTransaction();
         TipoTarefa tipoTarefa = readTipoTarefa(id);
 
-        if(tipoTarefa == null) {
+        if (tipoTarefa == null) {
             throw new RuntimeException("A categoria de id " + id + " não existe!");
         }
 
@@ -76,7 +77,7 @@ public class TipoTarefaService {
      * Atualiza uma referência no banco à partir do objeto fornecido
      *
      * @param categoriaAntiga A categoria armazenada no banco para ser atualizada
-     * @param categoriaNova A nova categoria a ser atualizada;
+     * @param categoriaNova   A nova categoria a ser atualizada;
      */
     public static void updateTipoTarefa(TipoTarefa categoriaAntiga, TipoTarefa categoriaNova) {
         Transaction transaction = session.beginTransaction();
@@ -97,7 +98,7 @@ public class TipoTarefaService {
         Transaction transaction = session.beginTransaction();
         TipoTarefa tipoTarefa = readTipoTarefa(id);
 
-        if(tipoTarefa == null) {
+        if (tipoTarefa == null) {
             throw new RuntimeException("TipoTarefa não encontrado!");
         }
 
@@ -110,9 +111,14 @@ public class TipoTarefaService {
      *
      * @param tipoTarefa A categoria a ser removida
      */
-    public static void deleteTipoTarefa(TipoTarefa tipoTarefa) {
+    public static void deleteTipoTarefa(TipoTarefa tipoTarefa) throws Exception {
         Transaction transaction = session.beginTransaction();
-        session.remove(tipoTarefa);
-        transaction.commit();
+        try {
+            session.remove(tipoTarefa);
+        } catch (ConstraintViolationException e) {
+            throw new Exception(e);
+        } finally {
+            transaction.commit();
+        }
     }
 }

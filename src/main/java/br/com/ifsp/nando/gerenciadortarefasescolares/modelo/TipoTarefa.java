@@ -41,7 +41,7 @@ public class TipoTarefa {
 
     @Override
     public String toString() {
-        return nome + ", " + cor;
+        return nome;
     }
 
     public String getNome() {

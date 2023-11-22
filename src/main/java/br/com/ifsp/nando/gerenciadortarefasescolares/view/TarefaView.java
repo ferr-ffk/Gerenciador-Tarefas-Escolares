@@ -55,7 +55,13 @@ public class TarefaView extends HBox {
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(7.5f);
         setPadding(new Insets(10, 15, 10, 15));
-        getChildren().addAll(simbolo, vBox, botaoEditar, botaoConcluir);
+        boolean descricaoVazia = descricao.getText().isEmpty();
+
+        if (descricaoVazia) {
+            getChildren().addAll(simbolo, titulo, botaoEditar, botaoConcluir);
+        } else {
+            getChildren().addAll(simbolo, vBox, botaoEditar, botaoConcluir);
+        }
     }
 
     private void carregarCenaEditarTarefa() {

@@ -8,7 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,7 +30,6 @@ public class TipoTarefaView extends HBox {
      * @param tipoTarefa A tipoTarefa correspondente
      */
     public TipoTarefaView(TipoTarefa tipoTarefa) {
-        final String bullet = "\u2023";
         this.tipoTarefa = tipoTarefa;
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -56,7 +57,19 @@ public class TipoTarefaView extends HBox {
     }
 
     private void removerCategoria(TipoTarefaView tipoTarefaView) {
-        TipoTarefaService.deleteTipoTarefa(tipoTarefaView.tipoTarefa);
+        try {
+            TipoTarefaService.deleteTipoTarefa(tipoTarefaView.tipoTarefa);
+            System.out.println("Removeu com sucesso");
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Essa categoria não pode ser deletada!");
+            alert.setContentText("Exclua as tarefas dependentes dela e tente novamente");
+
+            if(alert.showAndWait().get() == ButtonType.OK) {
+                return;
+            }
+        }
 
         // atualiza o painel principal
         Painel painelController = new Painel();
@@ -67,7 +80,7 @@ public class TipoTarefaView extends HBox {
         Stage stageCriarConta = new Stage();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GerenciarCategoria.fxml"));
-        Scene scene = null;
+        Scene scene;
 
         try {
             scene = new Scene(fxmlLoader.load());

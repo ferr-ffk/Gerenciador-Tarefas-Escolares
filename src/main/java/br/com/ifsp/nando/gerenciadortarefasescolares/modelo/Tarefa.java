@@ -51,6 +51,7 @@ public class Tarefa {
         this.dataVencimento = dataVencimento;
 
         this.idUsuario = idUsuario;
+        this.idUsuario.criarTarefa();
         this.idCategoria = idCategoria;
 
         this.excluida = false;
