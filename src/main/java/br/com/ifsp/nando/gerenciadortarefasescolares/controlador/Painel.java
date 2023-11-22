@@ -42,7 +42,7 @@ public class Painel implements Initializable {
     private ObservableList<TipoTarefa> categorias;
 
     @FXML
-    private ListView<TarefaView> listaTarefas;
+    private ListView<TarefaView> listViewTarefas;
 
     @FXML
     private ListView<TipoTarefaView> listaCategorias;
@@ -61,6 +61,9 @@ public class Painel implements Initializable {
 
     @FXML
     private PasswordField fieldConfirmarNovaSenha;
+
+    @FXML
+    private ChoiceBox<TipoTarefa> choiceFiltrarCategoria;
 
     @FXML
     private void gerarRelatorio() {
@@ -108,8 +111,27 @@ public class Painel implements Initializable {
 
     @FXML
     public void atualizar() {
-        atualizarTarefas();
-        atualizarCategorias();
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Exceção na execução do programa");
+
+        final DialogPane dialogPane = dialog.getDialogPane();
+
+        dialogPane.getButtonTypes().addAll(ButtonType.OK);
+        dialogPane.getButtonTypes().addAll(ButtonType.CLOSE);
+
+        dialogPane.setContentText("Essa exceção veio de um processo interno");
+        dialog.initModality(Modality.APPLICATION_MODAL);
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+
+        try {
+            choiceFiltrarCategoria.setItems(FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario)));
+            atualizarTarefas();
+            atualizarCategorias();
+        } catch (Exception e) {
+            GerenciadorTarefasEscolares.ExibirJanelaExcecao(e, pw, sw, dialogPane, dialog);
+        }
     }
 
     /**
@@ -120,10 +142,10 @@ public class Painel implements Initializable {
         // tarefas.clear();
         tarefas = FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario));
 
-        listaTarefas.getItems().clear();
-        listaTarefas.refresh();
+        listViewTarefas.getItems().clear();
+        listViewTarefas.refresh();
 
-        tarefas.forEach(tarefa -> listaTarefas.getItems().add(new TarefaView(tarefa)));
+        tarefas.forEach(tarefa -> listViewTarefas.getItems().add(new TarefaView(tarefa)));
     }
 
     // todo: sseguinte ta dando monte de erro na hr de inserir tarefa, q ta persistindo a categoria tbm
@@ -139,6 +161,27 @@ public class Painel implements Initializable {
         listaCategorias.refresh();
 
         categorias.forEach(categoria -> listaCategorias.getItems().add(new TipoTarefaView(categoria)));
+    }
+
+    @FXML
+    private void filtrarCategoria() {
+        TipoTarefa categoria = choiceFiltrarCategoria.getValue();
+
+        ObservableList<Tarefa> tarefasCadastradas = FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario));
+
+        // obtem as tarefas que são do mesmo tipo do choiceBox
+        tarefasCadastradas = FXCollections.observableList(tarefas
+                .stream()
+                .filter(tarefa -> tarefa.getTipoTarefa().equals(categoria))
+                .toList());
+
+        listViewTarefas.setItems(FXCollections.observableList(tarefasCadastradas.stream().map(TarefaView::new).toList()));
+    }
+
+    @FXML
+    private void limparFiltro() {
+        tarefas = FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario));
+        listViewTarefas.setItems(FXCollections.observableList(tarefas.stream().map(TarefaView::new).toList()));
     }
 
     @Override
@@ -172,6 +215,8 @@ public class Painel implements Initializable {
                     fecharJanelaComAviso(stage);
                 });
 
+                choiceFiltrarCategoria.setItems(FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario)));
+
                 String nome = usuario.getApelido().isEmpty() ? usuario.getNomeUsuario() : usuario.getApelido();
                 labelTitulo.setText("Bem vindo " + nome + "!");
             });
@@ -188,7 +233,7 @@ public class Painel implements Initializable {
 
         if (alert.showAndWait().get() == ButtonType.OK) {
             // filtra as tarefas que foram marcadas como concluídas
-            tarefas = FXCollections.observableList(listaTarefas
+            tarefas = FXCollections.observableList(listViewTarefas
                     .getItems()
                     .stream().map(TarefaView::getTarefa)
                     .filter(tarefa -> !tarefa.getConcluida())
