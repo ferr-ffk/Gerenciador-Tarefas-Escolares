@@ -1,6 +1,8 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
@@ -27,8 +29,10 @@ public class Tarefa {
     @Column
     private LocalDate dataVencimento;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    // cascade ALL deleta o tipo da tarefa quando ela for removida, então tem que colocar todos menos ele
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "idCategoria")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private TipoTarefa idCategoria;
 
     @Column
@@ -39,9 +43,11 @@ public class Tarefa {
 
     @JoinColumn(name = "idUsuario")
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Usuario idUsuario;
 
-    public Tarefa() {}
+    public Tarefa() {
+    }
 
     public Tarefa(String titulo, String descricao, LocalDate dataVencimento, TipoTarefa idCategoria, Usuario idUsuario) {
         super();
@@ -82,25 +88,34 @@ public class Tarefa {
         this.dataVencimento = dataVencimento;
     }
 
-    public Boolean getStatus() {
-        return concluida;
-    }
-
     public void concluir() {
+        this.idUsuario.concluirTarefa();
         this.concluida = !concluida;
     }
 
-    public boolean getConcluida() { return concluida; }
-
-    public boolean getExcluida() { return excluida; }
-
-    public void excluir() {
-        this.excluida = !excluida;
+    public boolean getConcluida() {
+        return concluida;
     }
 
-    public TipoTarefa getTipoTarefa() { return this.idCategoria; }
+    public boolean getExcluida() {
+        return excluida;
+    }
 
-    public Usuario getUsuario() { return this.idUsuario; }
+    public TipoTarefa getTipoTarefa() {
+        return this.idCategoria;
+    }
+
+    public void setTipoTarefa(TipoTarefa tipoTarefa) {
+        this.idCategoria = tipoTarefa;
+    }
+
+    public void setIdUsuario(Usuario usuario) {
+        this.idUsuario = usuario;
+    }
+
+    public Usuario getUsuario() {
+        return this.idUsuario;
+    }
 
     @Override
     public String toString() {

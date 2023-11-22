@@ -42,30 +42,32 @@ public class TarefaService {
     }
 
     /**
-     * Altera uma tarefa no banco
+     * Atualiza uma tarefa no banco, fornecendo o objeto de persistência e um novo objeto com os atributos novos
      *
-     * @param id o id do tarefa a ser alterado
-     * @param t os dados da nova tarefa
+     * @param tarefaAntiga A tarefa antiga a ser atualizada
+     * @param tarefaNova   A nova tarefa, com os atributos novos
      */
-    public static void updateTarefa(Integer id, Tarefa t) {
-        Tarefa tarefa = TarefaService.readTarefa(id);
-
-        tarefa = new Tarefa(t.getTitulo(), t.getDescricao(), t.getDataVencimento(), t.getTipoTarefa(), t.getUsuario());
-
-        Transaction transaction = session.getTransaction();
-        session.persist(tarefa);
-        transaction.commit();
-    }
-
     public static void updateTarefa(Tarefa tarefaAntiga, Tarefa tarefaNova) {
-       Transaction transaction = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
-       System.out.println("Resultado -> " + session.get(Tarefa.class, 1));
-       Tarefa tarefa = session.get(Tarefa.class, tarefaAntiga);
-       tarefa = tarefaNova;
-       session.persist(tarefa);
+        tarefaAntiga.setTitulo(tarefaNova.getTitulo());
+        tarefaAntiga.setDescricao(tarefaNova.getDescricao());
+        tarefaAntiga.setDataVencimento(tarefaNova.getDataVencimento());
+        tarefaAntiga.setTipoTarefa(tarefaNova.getTipoTarefa());
+        tarefaAntiga.setIdUsuario(tarefaNova.getUsuario());
 
-       transaction.commit();
+//        tarefaAntiga = tarefaNova;
+
+//        tarefaAntiga = new Tarefa(
+//                tarefaNova.getTitulo(),
+//                tarefaNova.getDescricao(),
+//                tarefaNova.getDataVencimento(),
+//                tarefaNova.getTipoTarefa(),
+//                tarefaNova.getUsuario());
+
+        session.persist(tarefaAntiga);
+
+        transaction.commit();
     }
 
     /**
@@ -76,7 +78,7 @@ public class TarefaService {
     public static void deleteTarefa(Integer id) {
         Tarefa t = session.get(Tarefa.class, id);
 
-        if(t == null) {
+        if (t == null) {
             throw new RuntimeException("Tarefa não encontrada!");
         }
 

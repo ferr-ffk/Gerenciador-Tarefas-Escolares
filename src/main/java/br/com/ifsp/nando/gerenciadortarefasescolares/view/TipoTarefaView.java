@@ -59,14 +59,13 @@ public class TipoTarefaView extends HBox {
     private void removerCategoria(TipoTarefaView tipoTarefaView) {
         try {
             TipoTarefaService.deleteTipoTarefa(tipoTarefaView.tipoTarefa);
-            System.out.println("Removeu com sucesso");
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setHeaderText("Essa categoria não pode ser deletada!");
             alert.setContentText("Exclua as tarefas dependentes dela e tente novamente");
 
-            if(alert.showAndWait().get() == ButtonType.OK) {
+            if(alert.showAndWait().orElseThrow() == ButtonType.OK) {
                 return;
             }
         }

@@ -3,6 +3,8 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.ColorUtil;
 import jakarta.persistence.*;
 import javafx.scene.paint.Color;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import static br.com.ifsp.nando.gerenciadortarefasescolares.util.ColorUtil.paraHexString;
 
@@ -26,6 +28,7 @@ public class TipoTarefa {
 
     @JoinColumn(name = "idUsuario")
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Usuario idUsuario;
 
     public TipoTarefa() {

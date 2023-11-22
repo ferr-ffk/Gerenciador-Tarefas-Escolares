@@ -7,7 +7,6 @@ import jakarta.persistence.*;
  * de tarefas para depois monitorá-las
  *
  * @author Fernando Freitas
- *
  */
 @Entity
 @Table(name = "Usuario")
@@ -27,9 +26,10 @@ public class Usuario {
     @Column
     private String senha;
 
-    @Transient
+    @Column
     private int numeroTarefasConcluidas;
 
+    @Column
     private int numeroTarefasCriadas;
 
     public Usuario() {
@@ -66,9 +66,21 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public void concluirTarefa() { this.numeroTarefasConcluidas++; }
+    public void concluirTarefa() {
+        this.numeroTarefasConcluidas++;
+    }
 
-    public void criarTarefa() { this.numeroTarefasCriadas++; }
+    public void criarTarefa() {
+        this.numeroTarefasCriadas++;
+    }
+
+    public int getNumeroTarefasConcluidas() {
+        return this.numeroTarefasConcluidas;
+    }
+
+    public int getNumeroTarefasCriadas() {
+        return this.numeroTarefasCriadas;
+    }
 
     public Relatorio gerarRelatorio() {
         return Relatorio.gerarRelatorio(this);
@@ -76,7 +88,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "USUARIO [" + idUsuario + "]: {" + apelido + ", " + nomeUsuario + ", " + senha + "}";
+        return "USUARIO [" + idUsuario + "]: {" + apelido + ", " + nomeUsuario + ", " + senha + ", concluiu " + numeroTarefasConcluidas + " de " + numeroTarefasCriadas + "}";
     }
 
 }

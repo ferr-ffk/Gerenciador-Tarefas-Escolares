@@ -1,6 +1,7 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.controlador;
 
 import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
+import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Relatorio;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Painel implements Initializable {
@@ -66,8 +68,89 @@ public class Painel implements Initializable {
     private ChoiceBox<TipoTarefa> choiceFiltrarCategoria;
 
     @FXML
-    private void gerarRelatorio() {
+    private Label tituloRelatorio;
 
+    @FXML
+    private Label descricaoRelatorio;
+
+    @FXML
+    private Label paragrafoRelatorio;
+
+    @FXML
+    private Label labelErro;
+
+    @FXML
+    private void deletarConta() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Deletar conta");
+        alert.setHeaderText("Você está prestes a excluir PERMANENTEMENTE sua conta... tem certeza?");
+        alert.setContentText("Para proseeguir, certifique que todas as tarefas e categorias foram excluídas anteriormente");
+
+        if(alert.showAndWait().orElseThrow() == ButtonType.OK) {
+            stage.close();
+            UsuarioService.deleteUsuario(usuario);
+        }
+    }
+
+    @FXML
+    private void mudarApelido() {
+        String novoApelido = fieldNovoApelido.getText();
+
+        usuario.setApelido(novoApelido);
+        UsuarioService.createUsuario(usuario);
+
+        labelTitulo.setText("Bem vindo " + novoApelido + "!");
+    }
+
+    @FXML
+    private void trocarSenha() {
+        String senhaAtual = fieldSenhaAtual.getText();
+
+        String novaSenha = fieldNovaSenha.getText();
+        String senhaConfirmar = fieldConfirmarNovaSenha.getText();
+
+        boolean senhaCorreta = senhaAtual.equals(usuario.getSenha());
+
+        if (senhaCorreta) {
+            boolean senhaConfirmada = novaSenha.equals(senhaConfirmar);
+
+            if (senhaConfirmada) {
+                usuario.setSenha(novaSenha);
+                UsuarioService.createUsuario(usuario);
+            } else {
+                labelErro.setText("As senhas devem ser iguais!");
+            }
+        } else {
+            labelErro.setText("Digite corretamente a senha atual...");
+        }
+    }
+
+    @FXML
+    private void gerarRelatorio() {
+        Relatorio relatorio = Relatorio.gerarRelatorio(usuario);
+
+        final String nome = usuario.getApelido().isEmpty() ? usuario.getNomeUsuario() : usuario.getApelido();
+        final int tarefasCriadas = usuario.getNumeroTarefasCriadas();
+        final int tarefasConcluidas = relatorio.getTarefasConcluidas();
+        final double porcentagem = relatorio.getPorcentagem();
+
+        String desempenho;
+
+        if (porcentagem >= 100.0f) {
+            desempenho = "ótimo!!!";
+        } else if (porcentagem > 80.0f) {
+            desempenho = "muito massa";
+        } else if (porcentagem > 60.0f) {
+            desempenho = "bomm";
+        } else if (porcentagem > 40.0f) {
+            desempenho = "mediano né";
+        } else {
+            desempenho = " muito ruim :(";
+        }
+
+        tituloRelatorio.setText("Relatório de " + nome);
+        descricaoRelatorio.setText("Seu desempenho foi " + desempenho);
+        paragrafoRelatorio.setText(String.format("Você criou %d tarefas e concluiu %d delas. Sua porcentagem atual é de %.2f%%; parabéns!", tarefasCriadas, tarefasConcluidas, porcentagem));
     }
 
     @FXML
@@ -126,7 +209,9 @@ public class Painel implements Initializable {
         PrintWriter pw = new PrintWriter(sw);
 
         try {
+            System.out.println(usuario);
             choiceFiltrarCategoria.setItems(FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario)));
+
             atualizarTarefas();
             atualizarCategorias();
         } catch (Exception e) {
@@ -142,13 +227,9 @@ public class Painel implements Initializable {
         // tarefas.clear();
         tarefas = FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario));
 
-        listViewTarefas.getItems().clear();
-        listViewTarefas.refresh();
-
-        tarefas.forEach(tarefa -> listViewTarefas.getItems().add(new TarefaView(tarefa)));
+        List<TarefaView> tarefas1 = tarefas.stream().map(TarefaView::new).toList();
+        listViewTarefas.setItems(FXCollections.observableList(tarefas1));
     }
-
-    // todo: sseguinte ta dando monte de erro na hr de inserir tarefa, q ta persistindo a categoria tbm
 
     /**
      * Atualiza as categorias da ListView para renderizar
@@ -231,7 +312,7 @@ public class Painel implements Initializable {
         alert.setHeaderText("Você está prestes a sair!");
         alert.setContentText("Qualquer alteração não salva será perdida!");
 
-        if (alert.showAndWait().get() == ButtonType.OK) {
+        if (alert.showAndWait().orElseThrow() == ButtonType.OK) {
             // filtra as tarefas que foram marcadas como concluídas
             tarefas = FXCollections.observableList(listViewTarefas
                     .getItems()
@@ -244,7 +325,6 @@ public class Painel implements Initializable {
                 System.out.println(tarefa.getUsuario());
                 TarefaService.createTarefa(tarefa);
             });
-            // fixme: n ta criando a porra da tarefa mann
 
             stage.close();
         }

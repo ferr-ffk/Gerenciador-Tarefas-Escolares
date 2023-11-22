@@ -11,14 +11,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -84,8 +81,8 @@ public class GerenciarTarefa implements Initializable {
             categoria = choiceCategoria.getValue();
 
             tarefa = new Tarefa(titulo, descricao, date, categoria, usuario);
-            TarefaService.deleteTarefa(this.tarefa);
-            TarefaService.createTarefa(tarefa);
+
+            TarefaService.updateTarefa(this.tarefa, tarefa);
         }
 
         stage.close();
@@ -103,15 +100,10 @@ public class GerenciarTarefa implements Initializable {
         Platform.runLater(() -> {
             Stage stage = (Stage) cena.getScene().getWindow();
 
-            final TipoTarefa categoria3;
-            final TipoTarefa categoria1;
-            final TipoTarefa categoria2;
-
             // verifica se o dado do stage for o usuário
             Tarefa tarefa = stage.getUserData() instanceof Usuario ? null : (Tarefa) stage.getUserData();
 
             criandoNovaTarefa = tarefa == null;
-
 
             if (!criandoNovaTarefa) {
                 this.tarefa = tarefa;
@@ -124,28 +116,14 @@ public class GerenciarTarefa implements Initializable {
                 tipoTarefasPersonalizadas = UsuarioService.readCategoriasUsuario(tarefa.getUsuario());
 
                 choiceCategoria.setValue(tarefa.getTipoTarefa());
-
-                categoria1 = new TipoTarefa("Pessoal", Color.LIGHTCORAL, tarefa.getUsuario());
-                categoria2 = new TipoTarefa("Escolar", Color.GOLD, tarefa.getUsuario());
-                categoria3 = new TipoTarefa("Lazer", Color.DARKGREEN, tarefa.getUsuario());
             } else {
                 Usuario usuario = (Usuario) stage.getUserData();
 
                 tipoTarefasPersonalizadas = FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario));
-                choiceCategoria.setValue(tipoTarefasPersonalizadas.get(0));
-
-                categoria1 = new TipoTarefa("Pessoal", Color.LIGHTCORAL, usuario);
-                categoria2 = new TipoTarefa("Escolar", Color.GOLD, usuario);
-                categoria3 = new TipoTarefa("Lazer", Color.DARKGREEN, usuario);
             }
 
-            final List<TipoTarefa> listaTipoTarefasPadrao = Arrays.asList(categoria1, categoria2, categoria3);
-            final List<TipoTarefa> merge = new ArrayList<>();
-
-            merge.addAll(listaTipoTarefasPadrao);
-            merge.addAll(tipoTarefasPersonalizadas);
-
-            choiceCategoria.getItems().setAll(FXCollections.observableList(merge));
+            choiceCategoria.getItems().setAll(tipoTarefasPersonalizadas);
+            choiceCategoria.setValue(tipoTarefasPersonalizadas.get(0));
         });
     }
 }
