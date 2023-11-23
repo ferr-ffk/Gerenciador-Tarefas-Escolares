@@ -5,7 +5,6 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Relatorio;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
-import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.GerenciadorTarefasEscolares;
@@ -213,7 +212,6 @@ public class Painel implements Initializable {
         PrintWriter pw = new PrintWriter(sw);
 
         try {
-            System.out.println(usuario);
             choiceFiltrarCategoria.setItems(FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario)));
 
             atualizarTarefas();
@@ -250,8 +248,8 @@ public class Painel implements Initializable {
 
     @FXML
     private void filtrarTarefas() {
-        tarefas = FXCollections.observableList(
-                listViewTarefas.getItems()
+        tarefas = FXCollections.observableList(listViewTarefas
+                        .getItems()
                         .stream()
                         .map(TarefaView::getTarefa)
                         .filter(tarefa -> !tarefa.getConcluida()).toList());

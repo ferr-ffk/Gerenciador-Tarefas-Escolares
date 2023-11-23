@@ -59,7 +59,6 @@ public class GerenciarCategoria implements Initializable {
             usuario = (Usuario) stage.getUserData();
             TipoTarefa tipoTarefa = new TipoTarefa(nome, cor, usuario);
 
-            System.out.println(tipoTarefa);
             TipoTarefaService.createTipoTarefa(tipoTarefa);
         } else {
             tipoTarefa.setNome(nome);
