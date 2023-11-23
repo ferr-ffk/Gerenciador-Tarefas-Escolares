@@ -3,6 +3,7 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.view;
 import br.com.ifsp.nando.gerenciadortarefasescolares.Main;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -50,7 +51,8 @@ public class TarefaView extends HBox {
         botaoEditar.setOnAction(event -> carregarCenaEditarTarefa());
 
         CheckBox botaoConcluir = new CheckBox("Concluir");
-        botaoConcluir.setOnAction(event -> this.tarefa.concluir());
+        botaoConcluir.setOnAction(event -> this.concluir());
+        botaoConcluir.setSelected(tarefa.getConcluida());
 
         setAlignment(Pos.CENTER_LEFT);
         setSpacing(7.5f);
@@ -62,6 +64,11 @@ public class TarefaView extends HBox {
         } else {
             getChildren().addAll(simbolo, vBox, botaoEditar, botaoConcluir);
         }
+    }
+
+    public void concluir() {
+        tarefa.concluir();
+        TarefaService.updateTarefa(tarefa);
     }
 
     private void carregarCenaEditarTarefa() {

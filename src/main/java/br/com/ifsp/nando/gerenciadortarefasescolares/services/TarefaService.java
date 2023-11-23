@@ -18,7 +18,7 @@ public class TarefaService {
      */
     public static void createTarefa(Tarefa t) {
         Transaction transaction = session.beginTransaction();
-        session.merge(t);
+        session.save(t);
         transaction.commit();
     }
 
@@ -45,29 +45,15 @@ public class TarefaService {
      * Atualiza uma tarefa no banco, fornecendo o objeto de persistência e um novo objeto com os atributos novos
      *
      * @param tarefaAntiga A tarefa antiga a ser atualizada
-     * @param tarefaNova   A nova tarefa, com os atributos novos
      */
-    public static void updateTarefa(Tarefa tarefaAntiga, Tarefa tarefaNova) {
+    public static void updateTarefa(Tarefa tarefaAntiga) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        tarefaAntiga.setTitulo(tarefaNova.getTitulo());
-        tarefaAntiga.setDescricao(tarefaNova.getDescricao());
-        tarefaAntiga.setDataVencimento(tarefaNova.getDataVencimento());
-        tarefaAntiga.setTipoTarefa(tarefaNova.getTipoTarefa());
-        tarefaAntiga.setIdUsuario(tarefaNova.getUsuario());
-
-//        tarefaAntiga = tarefaNova;
-
-//        tarefaAntiga = new Tarefa(
-//                tarefaNova.getTitulo(),
-//                tarefaNova.getDescricao(),
-//                tarefaNova.getDataVencimento(),
-//                tarefaNova.getTipoTarefa(),
-//                tarefaNova.getUsuario());
-
-        session.persist(tarefaAntiga);
+        session.saveOrUpdate(tarefaAntiga);
 
         transaction.commit();
+        session.close();
     }
 
     /**

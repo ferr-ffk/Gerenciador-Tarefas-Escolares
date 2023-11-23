@@ -77,14 +77,11 @@ public class TipoTarefaService {
      * Atualiza uma referência no banco à partir do objeto fornecido
      *
      * @param categoriaAntiga A categoria armazenada no banco para ser atualizada
-     * @param categoriaNova   A nova categoria a ser atualizada;
      */
-    public static void updateTipoTarefa(TipoTarefa categoriaAntiga, TipoTarefa categoriaNova) {
+    public static void updateTipoTarefa(TipoTarefa categoriaAntiga) {
         Transaction transaction = session.beginTransaction();
 
-        TipoTarefa categoria = session.get(TipoTarefa.class, categoriaAntiga);
-        categoria = categoriaNova;
-        session.persist(categoria);
+        session.saveOrUpdate(categoriaAntiga);
 
         transaction.commit();
     }

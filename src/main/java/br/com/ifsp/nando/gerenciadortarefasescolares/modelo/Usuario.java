@@ -1,5 +1,6 @@
 package br.com.ifsp.nando.gerenciadortarefasescolares.modelo;
 
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import jakarta.persistence.*;
 
 /**
@@ -31,6 +32,9 @@ public class Usuario {
 
     @Column
     private int numeroTarefasCriadas;
+
+    @Column
+    private boolean excluido;
 
     public Usuario() {
     }
@@ -87,7 +91,18 @@ public class Usuario {
         return "USUARIO [" + idUsuario + "]: {" + apelido + ", " + nomeUsuario + ", " + senha + ", concluiu " + numeroTarefasConcluidas + " de " + numeroTarefasCriadas + "}";
     }
 
+    public void excluir() {
+        this.excluido = true;
+        UsuarioService.updateUsuario(this);
+    }
+
+    public boolean isExcluido() {
+        return this.excluido;
+    }
+
     public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
+
+    public Integer getIdUsuario() { return this.idUsuario; }
 }

@@ -77,12 +77,13 @@ public class GerenciarTarefa implements Initializable {
 
             TarefaService.createTarefa(tarefa);
         } else {
-            usuario = tarefa.getUsuario();
             categoria = choiceCategoria.getValue();
 
-            tarefa = new Tarefa(titulo, descricao, date, categoria, usuario);
+            tarefa.setTitulo(titulo);
+            tarefa.setDescricao(descricao);
+            tarefa.setTipoTarefa(categoria);
 
-            TarefaService.updateTarefa(this.tarefa, tarefa);
+            TarefaService.updateTarefa(this.tarefa);
         }
 
         stage.close();

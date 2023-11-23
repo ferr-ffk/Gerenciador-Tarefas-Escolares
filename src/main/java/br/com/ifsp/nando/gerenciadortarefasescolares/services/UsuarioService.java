@@ -72,20 +72,13 @@ public class UsuarioService {
     /**
      * Altera um usuário no banco
      *
-     * @param id o id do usuário a ser alterado
      * @param u  os dados do novo usuário
      */
-    public static void updateUsuario(Integer id, Usuario u) {
-        Transaction transaction = session.getTransaction();
-        Usuario usuario = readUsuario(id);
+    public static void updateUsuario(Usuario u) {
+        Transaction transaction = session.beginTransaction();
 
-        if (usuario == null) {
-            throw new RuntimeException("O usuário de id " + id + " não existe!");
-        }
+        session.saveOrUpdate(u);
 
-        usuario = new Usuario(u.getNomeUsuario(), u.getApelido(), u.getSenha());
-
-        session.persist(usuario);
         transaction.commit();
     }
 
@@ -94,6 +87,7 @@ public class UsuarioService {
      *
      * @param id o id do usuário a ser deletado
      */
+    @Deprecated
     public static void deleteUsuario(Integer id) {
         Transaction transaction = session.beginTransaction();
         Usuario u = session.get(Usuario.class, id);

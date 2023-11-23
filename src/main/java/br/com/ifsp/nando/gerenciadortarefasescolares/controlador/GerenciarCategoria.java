@@ -3,6 +3,7 @@ package br.com.ifsp.nando.gerenciadortarefasescolares.controlador;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.TipoTarefaService;
+import br.com.ifsp.nando.gerenciadortarefasescolares.util.ColorUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,11 +62,10 @@ public class GerenciarCategoria implements Initializable {
             System.out.println(tipoTarefa);
             TipoTarefaService.createTipoTarefa(tipoTarefa);
         } else {
-            usuario = tipoTarefa.getUsuario();
-            TipoTarefa tipoTarefa = new TipoTarefa(nome, cor, usuario);
+            tipoTarefa.setNome(nome);
+            tipoTarefa.setCor(ColorUtil.paraHexString(cor));
 
-            System.out.println(tipoTarefa);
-            TipoTarefaService.updateTipoTarefa(this.tipoTarefa, tipoTarefa);
+            TipoTarefaService.updateTipoTarefa(this.tipoTarefa);
         }
 
         stage.close();
