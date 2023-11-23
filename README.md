@@ -10,7 +10,17 @@ Orientador: Prof° Igor de Moraes Sampaio.
 
 ![Intellij IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Github](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
+
+</div>
+
+<div align="center">
+
+![Painel principal](https://github.com/ferr-ffk/gerenciador-tarefas-escolares/assets/126774900/558ef9b2-a37a-43d7-b3ec-3c79fb147b56)
+
+![Página de Login](https://github.com/ferr-ffk/gerenciador-tarefas-escolares/assets/126774900/6ceee4a4-6d7d-443d-bd9e-99709845cba1)
 
 </div>
 
@@ -27,6 +37,8 @@ O sistema visa ser um gerenciador pessoal de tarefas para usuários diferentes e
 - **Criação de Categorias**: Cada usuário pode também criar uma categoria específica no sistema, além das fornecidas automaticamente
 
 - **Criação de Relatórios**: Com suas tarefas cadastradas, o usuário tem métodos de monitorar seu progresso, como ver a porcentagem de conclusão, além do número total de tarefas concluídas até agora
+ 
+![Criando nova tarefa](https://github.com/ferr-ffk/gerenciador-tarefas-escolares/assets/126774900/29dafc17-46c7-4af8-a544-ff98f2393548)
 
 ## Utilização e recursos
 
