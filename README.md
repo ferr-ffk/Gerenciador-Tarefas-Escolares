@@ -48,6 +48,10 @@ Ao criar uma conta, o usuário tem a funcionalidade de criar tarefas com base em
 - Pessoal
 - Lazer
 
+## Instalação e uso
+
+Para instalar, baixe o arquivo `.jar` na aba _Releases_ e execute normalmente, para usuários de windows, baixe o `.exe`. Certifique de ter o serviço de servidor de MySQL rodando.
+
 Cada categoria possui um nome e uma cor para melhor reconhecimento. A cor da categoria será mostrada no painel principal.
 
 ## Ferramentas e Bibliotecas utilizadas
