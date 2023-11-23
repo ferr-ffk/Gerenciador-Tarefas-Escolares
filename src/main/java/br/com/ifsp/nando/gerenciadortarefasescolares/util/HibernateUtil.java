@@ -12,7 +12,6 @@ public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
 
-
     /**
      * Método responsável para realizar as consultas no banco de dados em MySQL
      *

@@ -5,7 +5,6 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Relatorio;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
-import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.GerenciadorTarefasEscolares;
@@ -84,11 +83,11 @@ public class Painel implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Deletar conta");
         alert.setHeaderText("Você está prestes a excluir PERMANENTEMENTE sua conta... tem certeza?");
-        alert.setContentText("Para proseeguir, certifique que todas as tarefas e categorias foram excluídas anteriormente");
+        alert.setContentText("Todas as suas tarefas, categorias, e tempo aqui será perdido.");
 
         if(alert.showAndWait().orElseThrow() == ButtonType.OK) {
+            usuario.excluir();
             stage.close();
-            UsuarioService.deleteUsuario(usuario);
         }
     }
 
@@ -116,7 +115,11 @@ public class Painel implements Initializable {
 
             if (senhaConfirmada) {
                 usuario.setSenha(novaSenha);
-                UsuarioService.createUsuario(usuario);
+                UsuarioService.updateUsuario(usuario);
+
+                fieldNovaSenha.setText("");
+                fieldSenhaAtual.setText("");
+                fieldConfirmarNovaSenha.setText("");
             } else {
                 labelErro.setText("As senhas devem ser iguais!");
             }
@@ -150,7 +153,7 @@ public class Painel implements Initializable {
 
         tituloRelatorio.setText("Relatório de " + nome);
         descricaoRelatorio.setText("Seu desempenho foi " + desempenho);
-        paragrafoRelatorio.setText(String.format("Você criou %d tarefas e concluiu %d delas. Sua porcentagem atual é de %.2f%%; parabéns!", tarefasCriadas, tarefasConcluidas, porcentagem));
+        paragrafoRelatorio.setText(String.format("Você criou %d tarefas e concluiu %d delas. Sua porcentagem atual é de %.2f%%; parabéns pelo esforço <3", tarefasCriadas, tarefasConcluidas, porcentagem));
     }
 
     @FXML
@@ -209,7 +212,6 @@ public class Painel implements Initializable {
         PrintWriter pw = new PrintWriter(sw);
 
         try {
-            System.out.println(usuario);
             choiceFiltrarCategoria.setItems(FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario)));
 
             atualizarTarefas();
@@ -242,6 +244,17 @@ public class Painel implements Initializable {
         listaCategorias.refresh();
 
         categorias.forEach(categoria -> listaCategorias.getItems().add(new TipoTarefaView(categoria)));
+    }
+
+    @FXML
+    private void filtrarTarefas() {
+        tarefas = FXCollections.observableList(listViewTarefas
+                        .getItems()
+                        .stream()
+                        .map(TarefaView::getTarefa)
+                        .filter(tarefa -> !tarefa.getConcluida()).toList());
+
+        listViewTarefas.setItems(FXCollections.observableList(tarefas.stream().map(TarefaView::new).toList()));
     }
 
     @FXML
@@ -313,18 +326,7 @@ public class Painel implements Initializable {
         alert.setContentText("Qualquer alteração não salva será perdida!");
 
         if (alert.showAndWait().orElseThrow() == ButtonType.OK) {
-            // filtra as tarefas que foram marcadas como concluídas
-            tarefas = FXCollections.observableList(listViewTarefas
-                    .getItems()
-                    .stream().map(TarefaView::getTarefa)
-                    .filter(tarefa -> !tarefa.getConcluida())
-                    .toList());
-
-            UsuarioService.deletarTarefasUsuario(usuario);
-            tarefas.forEach(tarefa -> {
-                System.out.println(tarefa.getUsuario());
-                TarefaService.createTarefa(tarefa);
-            });
+            // ir para login
 
             stage.close();
         }

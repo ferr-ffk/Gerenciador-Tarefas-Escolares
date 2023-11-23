@@ -149,6 +149,7 @@
                     </padding>
                 </Label>
             </HBox>
+            <Button mnemonicParsing="false" onAction="#filtrarTarefas" text="Remover tarefas concluídas"/>
             <Button mnemonicParsing="false" onAction="#atualizar" text="Atualizar"/>
             <Button mnemonicParsing="false" onAction="#cenaCriarCategoria" text="Gerenciar categorias..."/>
             <Button mnemonicParsing="false" onAction="#cenaCriarTarefa" text="Gerenciar tarefas..."/>

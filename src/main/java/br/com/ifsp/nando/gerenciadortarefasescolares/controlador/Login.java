@@ -41,7 +41,7 @@ public class Login implements Initializable {
 
     @FXML
     public void onLogin() throws IOException {
-        usuarios = UsuarioService.readUsuarios();
+        usuarios = UsuarioService.readUsuarios().stream().filter(usuario -> !usuario.isExcluido()).toList();
 
         final String nomeUsuario = entradaNomeUsuario.getText();
 
