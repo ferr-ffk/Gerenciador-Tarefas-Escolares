@@ -6,7 +6,7 @@
 
     <groupId>br.com.ifsp.nando</groupId>
     <artifactId>gerenciador-tarefas-escolares</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <name>gerenciador-tarefas-escolares</name>
 
     <properties>

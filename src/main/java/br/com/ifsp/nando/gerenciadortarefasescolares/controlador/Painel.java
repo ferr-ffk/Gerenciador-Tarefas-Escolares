@@ -5,6 +5,7 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Relatorio;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Tarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
+import br.com.ifsp.nando.gerenciadortarefasescolares.services.TarefaService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TarefaView;
@@ -238,13 +239,14 @@ public class Painel implements Initializable {
 
     @FXML
     private void filtrarTarefas() {
-        tarefas = FXCollections.observableList(listViewTarefas
-                .getItems()
-                .stream()
-                .map(TarefaView::getTarefa)
-                .filter(tarefa -> !tarefa.getConcluida()).toList());
+        List<Tarefa> tarefasSeremRemovidas = listViewTarefas.getItems().stream()
+                        .map(TarefaView::getTarefa)
+                        .filter(Tarefa::getConcluida)
+                        .toList();
 
-        listViewTarefas.setItems(FXCollections.observableList(tarefas.stream().map(TarefaView::new).toList()));
+        tarefasSeremRemovidas.forEach(TarefaService::deleteTarefa);
+
+        listViewTarefas.setItems(FXCollections.observableList(UsuarioService.readTarefaUsuario(usuario).stream().map(TarefaView::new).toList()));
     }
 
     @FXML
