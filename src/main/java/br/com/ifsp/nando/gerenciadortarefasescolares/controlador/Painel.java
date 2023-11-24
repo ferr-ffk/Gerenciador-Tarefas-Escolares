@@ -7,7 +7,6 @@ import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.TipoTarefa;
 import br.com.ifsp.nando.gerenciadortarefasescolares.modelo.Usuario;
 import br.com.ifsp.nando.gerenciadortarefasescolares.services.UsuarioService;
 import br.com.ifsp.nando.gerenciadortarefasescolares.util.JavaFXUtil;
-import br.com.ifsp.nando.gerenciadortarefasescolares.view.GerenciadorTarefasEscolares;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TarefaView;
 import br.com.ifsp.nando.gerenciadortarefasescolares.view.TipoTarefaView;
 import javafx.application.Platform;
@@ -19,15 +18,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static br.com.ifsp.nando.gerenciadortarefasescolares.view.GerenciadorTarefasEscolares.ExibirJanelaExcecao;
 
 public class Painel implements Initializable {
 
@@ -85,7 +83,7 @@ public class Painel implements Initializable {
         alert.setHeaderText("Você está prestes a excluir PERMANENTEMENTE sua conta... tem certeza?");
         alert.setContentText("Todas as suas tarefas, categorias, e tempo aqui será perdido.");
 
-        if(alert.showAndWait().orElseThrow() == ButtonType.OK) {
+        if (alert.showAndWait().orElseThrow() == ButtonType.OK) {
             usuario.excluir();
             stage.close();
         }
@@ -137,6 +135,12 @@ public class Painel implements Initializable {
         final int tarefasConcluidas = relatorio.getTarefasConcluidas();
         final double porcentagem = relatorio.getPorcentagem();
 
+        if (tarefasCriadas == 0) {
+            descricaoRelatorio.setText("Você ainda não criou nenhuma tarefa... crie algumas e conclua para ver seu desempenho!");
+
+            return;
+        }
+
         String desempenho;
 
         if (porcentagem >= 100.0f) {
@@ -148,7 +152,7 @@ public class Painel implements Initializable {
         } else if (porcentagem > 40.0f) {
             desempenho = "mediano né";
         } else {
-            desempenho = " muito ruim :(";
+            desempenho = "muito ruim :(";
         }
 
         tituloRelatorio.setText("Relatório de " + nome);
@@ -158,7 +162,7 @@ public class Painel implements Initializable {
 
     @FXML
     private void logout() {
-        fecharJanelaComAviso(stage);
+        irParaLogin(stage);
     }
 
     @FXML
@@ -197,27 +201,13 @@ public class Painel implements Initializable {
 
     @FXML
     public void atualizar() {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Exceção na execução do programa");
-
-        final DialogPane dialogPane = dialog.getDialogPane();
-
-        dialogPane.getButtonTypes().addAll(ButtonType.OK);
-        dialogPane.getButtonTypes().addAll(ButtonType.CLOSE);
-
-        dialogPane.setContentText("Essa exceção veio de um processo interno");
-        dialog.initModality(Modality.APPLICATION_MODAL);
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-
         try {
             choiceFiltrarCategoria.setItems(FXCollections.observableList(UsuarioService.readCategoriasUsuario(usuario)));
 
             atualizarTarefas();
             atualizarCategorias();
         } catch (Exception e) {
-            GerenciadorTarefasEscolares.ExibirJanelaExcecao(e, pw, sw, dialogPane, dialog);
+            ExibirJanelaExcecao(e);
         }
     }
 
@@ -249,10 +239,10 @@ public class Painel implements Initializable {
     @FXML
     private void filtrarTarefas() {
         tarefas = FXCollections.observableList(listViewTarefas
-                        .getItems()
-                        .stream()
-                        .map(TarefaView::getTarefa)
-                        .filter(tarefa -> !tarefa.getConcluida()).toList());
+                .getItems()
+                .stream()
+                .map(TarefaView::getTarefa)
+                .filter(tarefa -> !tarefa.getConcluida()).toList());
 
         listViewTarefas.setItems(FXCollections.observableList(tarefas.stream().map(TarefaView::new).toList()));
     }
@@ -280,20 +270,6 @@ public class Painel implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("Exceção na execução do programa");
-
-        final DialogPane dialogPane = dialog.getDialogPane();
-
-        dialogPane.getButtonTypes().addAll(ButtonType.OK);
-        dialogPane.getButtonTypes().addAll(ButtonType.CLOSE);
-
-        dialogPane.setContentText("Essa exceção veio de um processo interno");
-        dialog.initModality(Modality.APPLICATION_MODAL);
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-
         try {
             // como o stage inicia nulo, é necssário usar o runLater pra deixar pra rodar após carregar td
             Platform.runLater(() -> {
@@ -315,7 +291,24 @@ public class Painel implements Initializable {
                 labelTitulo.setText("Bem vindo " + nome + "!");
             });
         } catch (Exception e) {
-            GerenciadorTarefasEscolares.ExibirJanelaExcecao(e, pw, sw, dialogPane, dialog);
+            ExibirJanelaExcecao(e);
+        }
+    }
+
+    @FXML
+    private void cenaSobreGerenciadorTarefas() {
+        try {
+            Stage stageSobre = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Sobre.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            JavaFXUtil.setJanelaPadrao(stageSobre);
+
+            stageSobre.setResizable(false);
+            stageSobre.setScene(scene);
+            stageSobre.show();
+        } catch (Exception e) {
+            ExibirJanelaExcecao(e);
         }
     }
 
@@ -326,9 +319,30 @@ public class Painel implements Initializable {
         alert.setContentText("Qualquer alteração não salva será perdida!");
 
         if (alert.showAndWait().orElseThrow() == ButtonType.OK) {
-            // ir para login
-
             stage.close();
+        }
+    }
+
+
+    private void irParaLogin(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Sair");
+        alert.setHeaderText("Você está seguindo para a tela de Login");
+        alert.setContentText("Qualquer alteração não salva será perdida!");
+
+        if (alert.showAndWait().orElseThrow() == ButtonType.OK) {
+            Scene scene;
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+                scene = new Scene(fxmlLoader.load());
+                JavaFXUtil.setJanelaPadrao(stage);
+
+                stage.setResizable(false);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                ExibirJanelaExcecao(e);
+            }
         }
     }
 }

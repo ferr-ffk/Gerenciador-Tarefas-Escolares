@@ -34,7 +34,7 @@ public class Usuario {
     private int numeroTarefasCriadas;
 
     @Column
-    private boolean excluido;
+    private Boolean excluido = false;
 
     public Usuario() {
     }
@@ -44,6 +44,7 @@ public class Usuario {
         this.apelido = apelido;
         this.nomeUsuario = nomeUsuario;
         this.senha = senha;
+
     }
 
     public String getApelido() {
@@ -56,10 +57,6 @@ public class Usuario {
 
     public String getNomeUsuario() {
         return nomeUsuario;
-    }
-
-    public void setNomeUsuario(String nome_usuario) {
-        this.nomeUsuario = nome_usuario;
     }
 
     public String getSenha() {
@@ -91,8 +88,12 @@ public class Usuario {
         return "USUARIO [" + idUsuario + "]: {" + apelido + ", " + nomeUsuario + ", " + senha + ", concluiu " + numeroTarefasConcluidas + " de " + numeroTarefasCriadas + "}";
     }
 
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
+
     public void excluir() {
-        this.excluido = true;
+        setExcluido(true);
         UsuarioService.updateUsuario(this);
     }
 

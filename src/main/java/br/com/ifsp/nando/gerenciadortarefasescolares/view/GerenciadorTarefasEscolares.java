@@ -18,6 +18,21 @@ public class GerenciadorTarefasEscolares extends Application {
 
     @Override
     public void start(Stage stage) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+
+            JavaFXUtil.setJanelaPadrao(stage);
+
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            ExibirJanelaExcecao(e);
+        }
+    }
+
+    public static void ExibirJanelaExcecao(Exception e) {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Exceção na execução do programa");
 
@@ -32,21 +47,6 @@ public class GerenciadorTarefasEscolares extends Application {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Login.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-
-            JavaFXUtil.setJanelaPadrao(stage);
-
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            ExibirJanelaExcecao(e, pw, sw, dialogPane, dialog);
-        }
-    }
-
-    public static void ExibirJanelaExcecao(Exception e, PrintWriter pw, StringWriter sw, DialogPane dialogPane, Dialog<ButtonType> dialog) {
         e.printStackTrace(pw);
         pw.close();
 
